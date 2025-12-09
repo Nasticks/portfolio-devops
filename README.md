@@ -55,8 +55,8 @@ flowchart LR
 
 📂 Structure du Projet (Monorepo)
 Le projet suit une séparation stricte entre le code applicatif et le code d'infrastructure.
-
-
+ 
+ ````
 .
 ├── app/                  # 📦 Code source de l'application (Site Astro)
 │   ├── src/              # Pages et composants
@@ -66,6 +66,8 @@ Le projet suit une séparation stricte entre le code applicatif et le code d'inf
 │   ├── github_oidc.tf    # Configuration de la sécurité OIDC
 │   └── billing.tf        # Configuration du budget AWS
 └── .github/workflows/    # ⚙️ Pipeline CI/CD (YAML)
+````
+
 
 
 
