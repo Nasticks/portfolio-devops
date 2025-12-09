@@ -51,6 +51,8 @@ flowchart LR
 | **Sécurité** | AWS IAM OIDC | Authentification sans clés d'accès permanentes. |
 | **FinOps** | AWS Budgets | Alerting automatique en cas de dépassement de coûts. |
 
+
+
 📂 Structure du Projet (Monorepo)
 Le projet suit une séparation stricte entre le code applicatif et le code d'infrastructure.
 
@@ -63,6 +65,7 @@ Le projet suit une séparation stricte entre le code applicatif et le code d'inf
 │   ├── github_oidc.tf    # Configuration de la sécurité OIDC
 │   └── billing.tf        # Configuration du budget AWS
 └── .github/workflows/    # ⚙️ Pipeline CI/CD (YAML)
+
 
 ## 🚀 Déploiement Automatisé
 
