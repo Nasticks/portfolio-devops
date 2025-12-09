@@ -12,23 +12,20 @@ Il démontre l'automatisation complète du déploiement d'un site statique sur A
 
 ## 🏗 Architecture
 
-Le déploiement est piloté par **GitHub Actions**. La sécurité est assurée par une fédération d'identité **OIDC**, permettant à GitHub d'assumer un rôle IAM temporaire uniquement le temps du déploiement.
-
-```mermaid
 flowchart LR
-    User([👤 Utilisateur]) -- HTTP --> S3[🪣 AWS S3 Bucket\n(Static Website Hosting)]
+    User([👤 Utilisateur]) -- HTTP --> S3["🪣 AWS S3 Bucket\n(Static Website Hosting)"]
     
-    subgraph CI_CD [🔄 GitHub Actions CI/CD]
+    subgraph CI_CD ["🔄 GitHub Actions CI/CD"]
         direction TB
-        Code[📦 Checkout Code] --> Build[🛠 Build Astro]
-        Build --> Auth[🔑 Auth OIDC]
-        Auth --> Deploy[🚀 S3 Sync]
+        Code["📦 Checkout Code"] --> Build["🛠 Build Astro"]
+        Build --> Auth["🔑 Auth OIDC"]
+        Auth --> Deploy["🚀 S3 Sync"]
     end
     
-    subgraph AWS_Cloud [☁️ AWS Cloud]
-        IAM[🛡 IAM OIDC Provider]
-        Role[👮 IAM Role]
-        Budget[💰 AWS Budgets]
+    subgraph AWS_Cloud ["☁️ AWS Cloud"]
+        IAM["🛡 IAM OIDC Provider"]
+        Role["👮 IAM Role"]
+        Budget["💰 AWS Budgets"]
     end
     
     CI_CD -- 1. Request Token --> IAM
