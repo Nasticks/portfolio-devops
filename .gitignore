@@ -1,0 +1,20 @@
+# --- Dependencies ---
+node_modules/
+dist/
+.env
+.DS_Store
+
+# --- Astro ---
+.astro/
+
+# --- Terraform (CRITIQUE) ---
+# Ignore les fichiers de configuration locaux et les états
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+.terraform.lock.hcl
