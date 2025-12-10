@@ -4,7 +4,6 @@ import Layout from '../layouts/Layout.astro';
 // IDENTITÉ
 const name = "Nasticks";
 const role = "Ingénieur Système & DevOps";
-// CORRECTION : Mise à jour pour 4 ans d'expérience
 const description = "Avec 4 ans d'expérience en administration système et infrastructures, j'évolue vers le DevOps pour industrialiser les déploiements. Mon but : mettre ma rigueur Ops au service de l'automatisation Cloud et de l'Infrastructure as Code.";
 
 // COMPÉTENCES
@@ -93,13 +92,12 @@ const socialLinks = [
 </Layout>
 
 <style>
-	/* DESIGN NEON / TERMINAL CONSERVÉ */
 	@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
 
 	:root {
 		--bg-color: #0a0f1e;
 		--text-color: #e2e8f0;
-		--accent: #00d4ff; /* Bleu Néon */
+		--accent: #00d4ff;
 		--accent-dark: #0ea5e9;
 		--card-bg: #1a2332;
 		--border-color: #2d3748;
@@ -240,13 +238,15 @@ const socialLinks = [
 		border-radius: 2px;
 	}
 
+	/* --- CORRECTION CSS POUR LA GRILLE --- */
 	.grid, .project-grid {
 		display: grid;
 		gap: 1.5rem;
 	}
 	
 	.grid {
-		grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+		/* Largeur augmentée de 160px à 220px pour éviter le débordement */
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 	}
 
 	.project-grid {
@@ -261,6 +261,17 @@ const socialLinks = [
 		border: 1.5px solid var(--border-color);
 		transition: all 0.3s ease;
 		backdrop-filter: blur(12px);
+		display: flex; /* Flexbox pour bien centrer le contenu */
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.card p {
+		/* Ajustement de la police pour que ça rentre bien dans les cartes */
+		font-size: 0.9rem; 
+		margin-top: 0.5rem;
+		line-height: 1.4;
 	}
 
 	.card:hover, .project-card:hover {
@@ -272,6 +283,7 @@ const socialLinks = [
 	.project-card {
 		text-align: left;
 		padding: 2rem;
+		display: block; /* Pas de flex centré pour les projets */
 	}
 
 	.project-card h4 {
@@ -304,7 +316,7 @@ const socialLinks = [
 	.icon {
 		font-size: 1.8rem;
 		display: block;
-		margin-bottom: 0.75rem;
+		margin-bottom: 0.5rem;
 	}
 
 	@media (max-width: 768px) {
