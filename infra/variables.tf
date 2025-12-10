@@ -9,3 +9,14 @@ variable "project_name" {
   type        = string
   default     = "Portfolio-DevOps"
 }
+variable "github_token" {
+  description = "Token d'accès personnel GitHub (PAT)"
+  type        = string
+  sensitive   = true # Masque la valeur dans les logs
+}
+
+variable "github_repo" {
+  description = "Nom du dépôt GitHub (ex: portfolio-devops)"
+  type        = string
+  default     = "portfolio-devops"
+}

@@ -21,7 +21,7 @@ resource "aws_iam_role" "github_actions" {
         Condition = {
           StringLike = {
             # ⚠️ TRES IMPORTANT : Remplace ci-dessous par ton info
-            "token.actions.githubusercontent.com:sub" = "repo:https://github.com/Nasticks/portfolio-devops.git:*"
+            "token.actions.githubusercontent.com:sub" = "repo:Nasticks/portfolio-devops:*"
           }
         }
       }

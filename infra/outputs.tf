@@ -11,4 +11,4 @@ output "role_arn" {
   description = "ARN du role pour GitHub Actions"
   value       = aws_iam_role.github_actions.arn
 }
-"arn:aws:iam::593734035095:role/github-actions-portfolio-role"
+
