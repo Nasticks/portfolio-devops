@@ -4,18 +4,19 @@ import Layout from '../layouts/Layout.astro';
 // IDENTITÉ
 const name = "Nasticks";
 const role = "Ingénieur Système & DevOps";
-const description = "Fort de plus de 4 ans d'expérience en administration système et infrastructures critiques, je bascule vers l'Ingénierie DevOps. Mon objectif : allier la rigueur opérationnelle (Ops) à l'agilité du Cloud et de l'automatisation (IaC).";
+// CORRECTION : Mise à jour pour 4 ans d'expérience
+const description = "Avec 4 ans d'expérience en administration système et infrastructures, j'évolue vers le DevOps pour industrialiser les déploiements. Mon but : mettre ma rigueur Ops au service de l'automatisation Cloud et de l'Infrastructure as Code.";
 
-// COMPÉTENCES : On mélange ton socle solide (SysAdmin) et tes acquis récents (DevOps)
+// COMPÉTENCES
 const skills = [
-  "Linux RHEL/Rocky & Windows", // Ta base solide
-  "Infrastructure as Code (Terraform)", // Ce projet le prouve
-  "CI/CD (GitHub Actions)", // Ce projet le prouve
-  "AWS (S3, IAM, OIDC)", // Ce projet le prouve
-  "Scripting (Bash/PowerShell)", // Compétence transférable SysAdmin
-  "Git & GitOps", // Méthodologie acquise
-  "Sécurité & Hardening", // Reflexe SysAdmin
-  "Azure (Administration)" // Ton background existant
+  "Linux RHEL/Rocky & Windows",
+  "Infrastructure as Code (Terraform)",
+  "CI/CD (GitHub Actions)",
+  "AWS (S3, IAM, OIDC)",
+  "Scripting (Bash/PowerShell)",
+  "Git & GitOps",
+  "Sécurité & Hardening",
+  "Azure (Administration)"
 ];
 
 const socialLinks = [
@@ -29,11 +30,9 @@ const socialLinks = [
 	<main>
 		<div class="container">
 			<header class="hero">
-				<div class="badge-status">
-					<span class="status-dot"></span> Open to Work
-				</div>
-				<h1>{name}</h1>
-				<h2 class="role-title">{role} <span class="exp-badge">10+ ans d'exp.</span></h2>
+				<div class="badge">🔍 En recherche active</div>
+				<h1>Salut ! <span class="text-gradient">{name}</span></h1>
+				<h2 class="role-title">{role} <span class="exp-badge">4+ ans d'exp.</span></h2>
 				
 				<p class="bio">
 					{description}
@@ -42,36 +41,34 @@ const socialLinks = [
 				<div class="socials">
 					{socialLinks.map((link) => (
 						<a href={link.url} target="_blank" class="btn-social" rel="noopener noreferrer">
-							{link.name}
+							{link.name} &rarr;
 						</a>
 					))}
 				</div>
 			</header>
 
-			<section class="section-block">
+			<section class="skills-section">
 				<h3>🛠 Stack Technique</h3>
-				<p class="section-subtitle">De l'administration système traditionnelle vers le Cloud Native.</p>
+				<p class="section-subtitle">Une base Système solide, modernisée par le Cloud Native.</p>
 				<div class="grid">
 					{skills.map((skill) => (
-						<div class="skill-tag">
-							{skill}
+						<div class="card">
+							<span class="icon">⚡</span>
+							<p>{skill}</p>
 						</div>
 					))}
 				</div>
 			</section>
 
-			<section class="section-block">
+			<section class="projects-preview">
 				<h3>🚀 Projets & Réalisations</h3>
 				<div class="project-grid">
 					
 					<div class="project-card featured">
-						<div class="card-header">
-							<h4>Infrastructure Portfolio (AWS)</h4>
-							<span class="tag-tech">Terraform</span>
-							<span class="tag-tech">GitHub Actions</span>
-						</div>
+						<h4>Infrastructure Portfolio (AWS)</h4>
+						<p class="tech-stack">Terraform • GitHub Actions • OIDC</p>
 						<p>Déploiement complet d'une architecture Cloud en approche <strong>GitOps</strong>.</p>
-						<ul>
+						<ul class="project-details">
 							<li>Provisioning Infrastructure as Code (S3, IAM, Budgets).</li>
 							<li>Pipeline CI/CD sécurisé via OIDC (Zero Access Key).</li>
 							<li>Automatisation du déploiement Frontend Astro.</li>
@@ -79,16 +76,13 @@ const socialLinks = [
 					</div>
 
 					<div class="project-card">
-						<div class="card-header">
-							<h4>Industrialisation Système</h4>
-							<span class="tag-tech">Ansible</span>
-							<span class="tag-tech">Linux</span>
-						</div>
-						<p>Expérience significative en gestion de parcs serveurs hétérogènes.</p>
-						<ul>
-							<li>Automatisation de configurations et patching.</li>
-							<li>Scripting d'administration et maintenance préventive.</li>
-							<li>Migration et hardening d'environnements de production.</li>
+						<h4>Administration Système</h4>
+						<p class="tech-stack">Ansible • Linux • Bash</p>
+						<p>Gestion et maintenance opérationnelle d'infrastructures.</p>
+						<ul class="project-details">
+							<li>Automatisation de configurations (Ansible/Bash).</li>
+							<li>Maintien en condition opérationnelle (MCO) et patching.</li>
+							<li>Migration et sécurisation d'environnements de production.</li>
 						</ul>
 					</div>
 
@@ -99,218 +93,222 @@ const socialLinks = [
 </Layout>
 
 <style>
-	/* POLICE TECHNIQUE MAIS PRO */
-	@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+	/* DESIGN NEON / TERMINAL CONSERVÉ */
+	@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
 
 	:root {
-		--bg-dark: #0f172a;
-		--card-dark: #1e293b;
-		--text-main: #f1f5f9;
-		--text-muted: #94a3b8;
-		--accent: #38bdf8; /* Bleu ciel pro */
-		--border: #334155;
+		--bg-color: #0a0f1e;
+		--text-color: #e2e8f0;
+		--accent: #00d4ff; /* Bleu Néon */
+		--accent-dark: #0ea5e9;
+		--card-bg: #1a2332;
+		--border-color: #2d3748;
 	}
 
 	main {
-		background-color: var(--bg-dark);
-		color: var(--text-main);
-		font-family: 'Inter', sans-serif;
+		background: linear-gradient(135deg, var(--bg-color) 0%, #1a1f3a 100%);
+		color: var(--text-color);
+		font-family: 'JetBrains Mono', 'Courier New', monospace;
 		min-height: 100vh;
-		padding: 4rem 1rem;
+		display: flex;
+		justify-content: center;
+		padding: 2rem 1rem;
 		line-height: 1.6;
 	}
 
 	.container {
-		max-width: 800px;
-		margin: 0 auto;
+		max-width: 900px;
+		width: 100%;
 	}
 
-	/* HERO SECTION */
 	.hero {
-		margin-bottom: 4rem;
+		padding: 5rem 0 3rem;
+		text-align: center;
+		border-bottom: 1px solid var(--border-color);
+	}
+
+	.badge {
+		background: linear-gradient(45deg, var(--accent-dark), var(--accent));
+		color: white;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem 1.25rem;
+		border-radius: 50px;
+		font-size: 0.85rem;
+		font-weight: 600;
+		margin-bottom: 1.5rem;
+		box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+		animation: pulse 2s infinite;
+	}
+
+	@keyframes pulse {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0.8; }
 	}
 
 	h1 {
-		font-family: 'JetBrains Mono', monospace;
-		font-size: 3rem;
-		margin: 0.5rem 0;
-		letter-spacing: -1px;
+		font-size: clamp(2.5rem, 5vw, 4rem);
+		margin: 0 0 0.5rem;
+		line-height: 1.1;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+	}
+
+	.text-gradient {
+		background: linear-gradient(45deg, var(--accent), #a855f7);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
 	}
 
 	.role-title {
-		font-size: 1.5rem;
-		color: var(--accent);
-		font-weight: 600;
-		margin-bottom: 1.5rem;
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-		flex-wrap: wrap;
+		font-size: clamp(1.2rem, 3vw, 1.6rem);
+		color: #94a3b8;
+		margin: 0 0 1.5rem;
+		font-weight: 400;
 	}
 
 	.exp-badge {
-		background: rgba(56, 189, 248, 0.1);
-		color: var(--accent);
 		font-size: 0.8rem;
-		padding: 4px 10px;
+		color: var(--accent);
+		border: 1px solid var(--accent);
+		padding: 2px 8px;
 		border-radius: 4px;
-		border: 1px solid rgba(56, 189, 248, 0.2);
-	}
-
-	.badge-status {
-		display: inline-flex;
-		align-items: center;
-		gap: 8px;
-		background: #14532d;
-		color: #4ade80;
-		padding: 4px 12px;
-		border-radius: 99px;
-		font-size: 0.75rem;
-		font-weight: bold;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-	}
-
-	.status-dot {
-		width: 8px;
-		height: 8px;
-		background-color: #4ade80;
-		border-radius: 50%;
-		display: block;
-		box-shadow: 0 0 8px #4ade80;
+		margin-left: 10px;
+		vertical-align: middle;
 	}
 
 	.bio {
-		font-size: 1.125rem;
-		color: var(--text-muted);
+		font-size: 1.15rem;
 		max-width: 650px;
+		margin: 0 auto 2.5rem;
+		opacity: 0.9;
 	}
 
-	/* SOCIALS */
 	.socials {
-		margin-top: 2rem;
 		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
 		gap: 1rem;
+		margin-top: 1rem;
 	}
 
 	.btn-social {
-		background: var(--card-dark);
-		color: var(--text-main);
+		background: var(--card-bg);
+		color: var(--text-color);
 		text-decoration: none;
-		padding: 0.6rem 1.2rem;
-		border-radius: 6px;
-		border: 1px solid var(--border);
-		font-size: 0.9rem;
-		font-weight: 600;
-		transition: all 0.2s;
+		padding: 0.9rem 1.8rem;
+		border-radius: 12px;
+		border: 1.5px solid var(--border-color);
+		font-weight: 500;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		backdrop-filter: blur(10px);
 	}
 
 	.btn-social:hover {
 		border-color: var(--accent);
+		background: rgba(0, 212, 255, 0.1);
 		color: var(--accent);
-	}
-
-	/* SECTIONS */
-	.section-block {
-		margin-bottom: 4rem;
-	}
-
-	h3 {
-		font-size: 1.25rem;
-		font-weight: 800;
-		margin-bottom: 0.5rem;
-		color: var(--text-main);
-		border-left: 4px solid var(--accent);
-		padding-left: 1rem;
+		transform: translateY(-2px);
+		box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
 	}
 
 	.section-subtitle {
-		color: var(--text-muted);
-		font-size: 0.9rem;
-		margin-bottom: 1.5rem;
-		padding-left: 1.2rem;
+		text-align: center;
+		color: #94a3b8;
+		margin-bottom: 2rem;
 	}
 
-	/* SKILLS GRID */
-	.grid {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.75rem;
+	h3 {
+		font-size: 1.8rem;
+		margin-bottom: 1rem;
+		text-align: center;
+		position: relative;
 	}
 
-	.skill-tag {
-		background: var(--card-dark);
-		border: 1px solid var(--border);
-		padding: 0.5rem 1rem;
-		border-radius: 4px;
-		font-family: 'JetBrains Mono', monospace;
-		font-size: 0.85rem;
-		color: var(--text-main);
+	h3::after {
+		content: '';
+		display: block;
+		width: 60px;
+		height: 3px;
+		background: var(--accent);
+		margin: 0.5rem auto 0;
+		border-radius: 2px;
 	}
 
-	/* PROJECTS */
-	.project-grid {
+	.grid, .project-grid {
 		display: grid;
 		gap: 1.5rem;
 	}
+	
+	.grid {
+		grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	}
+
+	.project-grid {
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	}
+
+	.card, .project-card {
+		background: var(--card-bg);
+		padding: 1.75rem 1.25rem;
+		border-radius: 16px;
+		text-align: center;
+		border: 1.5px solid var(--border-color);
+		transition: all 0.3s ease;
+		backdrop-filter: blur(12px);
+	}
+
+	.card:hover, .project-card:hover {
+		border-color: var(--accent);
+		transform: translateY(-4px);
+		box-shadow: 0 20px 40px rgba(0, 212, 255, 0.15);
+	}
 
 	.project-card {
-		background: var(--card-dark);
-		border: 1px solid var(--border);
-		padding: 1.5rem;
-		border-radius: 8px;
-	}
-
-	.project-card.featured {
-		border-color: var(--accent);
-		box-shadow: 0 0 20px rgba(56, 189, 248, 0.05);
-	}
-
-	.card-header {
-		display: flex;
-		align-items: baseline;
-		gap: 1rem;
-		margin-bottom: 0.5rem;
-		flex-wrap: wrap;
+		text-align: left;
+		padding: 2rem;
 	}
 
 	.project-card h4 {
-		font-size: 1.1rem;
-		font-weight: 700;
-		color: var(--text-main);
-		margin: 0;
-	}
-
-	.tag-tech {
-		font-size: 0.7rem;
 		color: var(--accent);
-		background: rgba(56, 189, 248, 0.1);
-		padding: 2px 8px;
-		border-radius: 4px;
+		font-size: 1.2rem;
+		margin: 0 0 0.5rem 0;
+	}
+
+	.tech-stack {
+		font-size: 0.85rem;
+		color: #94a3b8;
 		font-family: 'JetBrains Mono', monospace;
-	}
-
-	.project-card p {
-		color: var(--text-muted);
-		font-size: 0.95rem;
 		margin-bottom: 1rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
 	}
 
-	.project-card ul {
-		margin: 0;
+	.project-details {
+		text-align: left;
+		margin: 1rem 0 0 0;
 		padding-left: 1.2rem;
-		color: var(--text-muted);
-		font-size: 0.9rem;
+		color: #cbd5e1;
+		font-size: 0.95rem;
 	}
 	
-	.project-card li {
-		margin-bottom: 0.25rem;
+	.project-details li {
+		margin-bottom: 0.5rem;
 	}
 
-	/* RESPONSIVE */
-	@media (max-width: 600px) {
+	.icon {
+		font-size: 1.8rem;
+		display: block;
+		margin-bottom: 0.75rem;
+	}
+
+	@media (max-width: 768px) {
 		h1 { font-size: 2.5rem; }
-		.role-title { font-size: 1.2rem; }
-		.card-header { flex-direction: column; gap: 0.5rem; }
+		.btn-social { width: 100%; justify-content: center; }
 	}
 </style>
