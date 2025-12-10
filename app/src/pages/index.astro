@@ -1,14 +1,15 @@
+---
 import Layout from '../layouts/Layout.astro';
 
 const name = "Nasticks";
-const role = "Administrateur système & DevOps Juniorc";
-const description = "Passionné du Cloud, automatisation IaC et Green IT. Je déploie des infrastructures résilientes sur Rocky Linux et Azure, avec Terraform/Ansible, tout en optimisant l'empreinte carbone des pipelines CI/CD.";
+const role = "Ingénieur DevOps Junior (+10 ans sysadmin)";
+const description = "Spécialiste Azure, automatisation IaC et Green IT. Je déploie des infrastructures résilientes sur Rocky Linux et Azure, avec Terraform/Ansible, tout en optimisant l'empreinte carbone des pipelines CI/CD.";
 
 const skills = [
   "Azure (VM, Storage, AKS)",
   "Terraform (IaC Azure)",
   "Ansible (Config Mgmt)",
-  "Linux / RedHat, Ubuntu, Debian",
+  "Rocky Linux / RedHat",
   "GitHub Actions CI/CD",
   "Docker & Vagrant",
   "Bash / YAML Scripting",
@@ -20,8 +21,9 @@ const socialLinks = [
   { name: "LinkedIn", url: "https://linkedin.com/in/nasticks" }, 
   { name: "Email", url: "mailto:contact@nasticks.dev" }
 ];
+---
 
-<Layout title={`Portfolio ${name} | Admin/DevOps`}>
+<Layout title={`Portfolio ${name} | DevOps`}>
 	<main>
 		<div class="container">
 			<header class="hero">
@@ -29,8 +31,9 @@ const socialLinks = [
 				<h1>Salut ! <span class="text-gradient">{name}</span>, DevOps hands-on</h1>
 				<h2>{role}</h2>
 				<p class="bio">
-					{description} 
-					<br>Du refactoring Windows vers Linux production, j'industrialise Azure avec une approche durable.
+					{description}
+					<br><br>
+					<span class="bio-highlight">Du refactoring Windows vers Linux production, j'industrialise Azure avec une approche durable.</span>
 				</p>
 				
 				<div class="socials">
@@ -46,7 +49,7 @@ const socialLinks = [
 				<h3>🛠 Compétences Clés</h3>
 				<div class="grid">
 					{skills.map((skill) => (
-						<div class="card" role="listitem">
+						<div class="card">
 							<span class="icon">⚡</span>
 							<p>{skill}</p>
 						</div>
@@ -59,15 +62,15 @@ const socialLinks = [
 				<div class="project-grid">
 					<div class="project-card">
 						<h4>Azure IaC Pipeline</h4>
-						<p>Terraform + GitHub Actions pour S3/CloudFront sécurisé OIDC</p>
+						<p>Terraform + GitHub Actions pour S3/CloudFront sécurisé OIDC. Infrastructure as Code complète.</p>
 					</div>
 					<div class="project-card">
 						<h4>Rocky Linux Lab</h4>
-						<p>Admin sys Vagrant/Ansible, monitoring Green IT</p>
+						<p>Admin sys Vagrant/Ansible. Monitoring Green IT pour mesurer la consommation des ressources.</p>
 					</div>
 					<div class="project-card">
-						<h4>Contact Book Microservice</h4>
-						<p>SpringBoot + Docker sur GitHub</p>
+						<h4>Microservice Contact Book</h4>
+						<p>Déploiement SpringBoot + Docker. Pipeline CI/CD automatisé sur GitHub.</p>
 					</div>
 				</div>
 			</section>
@@ -75,217 +78,225 @@ const socialLinks = [
 	</main>
 </Layout>
 
+<style>
+	/* Import de la police 'code' pour le style DevOps */
+	@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
 
-:root {
-	--bg-color: #0a0f1e;
-	--text-color: #e2e8f0;
-	--accent: #00d4ff;
-	--accent-dark: #0ea5e9;
-	--card-bg: #1a2332;
-	--border-color: #2d3748;
-}
-
-main {
-	background: linear-gradient(135deg, var(--bg-color) 0%, #1a1f3a 100%);
-	color: var(--text-color);
-	font-family: 'JetBrains Mono', 'Courier New', monospace;
-	min-height: 100vh;
-	display: flex;
-	justify-content: center;
-	padding: 2rem 1rem;
-	line-height: 1.6;
-}
-
-.container {
-	max-width: 900px;
-	width: 100%;
-}
-
-.hero {
-	padding: 5rem 0 3rem;
-	text-align: center;
-	border-bottom: 1px solid var(--border-color);
-}
-
-.badge {
-	background: linear-gradient(45deg, var(--accent-dark), var(--accent));
-	color: white;
-	display: inline-flex;
-	align-items: center;
-	gap: 0.5rem;
-	padding: 0.5rem 1.25rem;
-	border-radius: 50px;
-	font-size: 0.85rem;
-	font-weight: 600;
-	margin-bottom: 1.5rem;
-	box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-	animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-	0%, 100% { opacity: 1; }
-	50% { opacity: 0.8; }
-}
-
-h1 {
-	font-size: clamp(2.5rem, 5vw, 4rem);
-	margin: 0 0 0.5rem;
-	line-height: 1.1;
-	font-weight: 700;
-	letter-spacing: -0.02em;
-}
-
-.text-gradient {
-	background: linear-gradient(45deg, var(--accent), #a855f7);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
-}
-
-h2 {
-	font-size: clamp(1.2rem, 3vw, 1.6rem);
-	color: #94a3b8;
-	margin: 0 0 1.5rem;
-	font-weight: 400;
-}
-
-.bio {
-	font-size: 1.15rem;
-	max-width: 650px;
-	margin: 0 auto 2.5rem;
-	opacity: 0.95;
-}
-
-.socials {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	gap: 1rem;
-	margin-top: 1rem;
-}
-
-.btn-social {
-	background: var(--card-bg);
-	color: var(--text-color);
-	text-decoration: none;
-	padding: 0.9rem 1.8rem;
-	border-radius: 12px;
-	border: 1.5px solid var(--border-color);
-	font-weight: 500;
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	display: inline-flex;
-	align-items: center;
-	gap: 0.5rem;
-	backdrop-filter: blur(10px);
-}
-
-.btn-social:hover {
-	border-color: var(--accent);
-	background: rgba(16, 185, 129, 0.1);
-	color: var(--accent);
-	transform: translateY(-2px);
-	box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
-}
-
-.skills-section, .projects-preview {
-	padding: 4rem 0;
-}
-
-h3 {
-	font-size: 1.8rem;
-	margin-bottom: 2rem;
-	text-align: center;
-	position: relative;
-}
-
-h3::after {
-	content: '';
-	display: block;
-	width: 60px;
-	height: 3px;
-	background: var(--accent);
-	margin: 0.5rem auto 0;
-	border-radius: 2px;
-}
-
-.grid, .project-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-	gap: 1.5rem;
-}
-
-.card, .project-card {
-	background: var(--card-bg);
-	padding: 1.75rem 1.25rem;
-	border-radius: 16px;
-	text-align: center;
-	border: 1.5px solid var(--border-color);
-	transition: all 0.3s ease;
-	cursor: pointer;
-	backdrop-filter: blur(12px);
-}
-
-.card:hover, .project-card:hover {
-	border-color: var(--accent);
-	transform: translateY(-4px);
-	box-shadow: 0 20px 40px rgba(0, 212, 255, 0.15);
-}
-
-.icon {
-	font-size: 1.8rem;
-	display: block;
-	margin-bottom: 0.75rem;
-	filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-}
-
-.card p, .project-card h4 {
-	margin: 0;
-	font-weight: 500;
-}
-
-.project-card {
-	text-align: left;
-}
-
-.project-card h4 {
-	margin: 0 0 0.5rem;
-	color: var(--accent);
-	font-size: 1.1rem;
-}
-
-.project-card p {
-	font-size: 0.95rem;
-	opacity: 0.85;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-	.hero {
-		padding: 3rem 0 2rem;
+	:root {
+		--bg-color: #0a0f1e;
+		--text-color: #e2e8f0;
+		--accent: #00d4ff;
+		--accent-dark: #0ea5e9;
+		--card-bg: #1a2332;
+		--border-color: #2d3748;
 	}
-	
-	h1 {
-		font-size: 2.5rem;
-	}
-	
-	.socials {
-		flex-direction: column;
-		align-items: center;
-	}
-	
-	.btn-social {
+
+	main {
+		background: linear-gradient(135deg, var(--bg-color) 0%, #1a1f3a 100%);
+		color: var(--text-color);
+		font-family: 'JetBrains Mono', 'Courier New', monospace;
+		min-height: 100vh;
+		display: flex;
 		justify-content: center;
+		padding: 2rem 1rem;
+		line-height: 1.6;
+	}
+
+	.container {
+		max-width: 900px;
 		width: 100%;
-		max-width: 280px;
 	}
-}
 
-@media (prefers-reduced-motion: reduce) {
-	* {
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
+	.hero {
+		padding: 5rem 0 3rem;
+		text-align: center;
+		border-bottom: 1px solid var(--border-color);
 	}
-}
 
+	.badge {
+		background: linear-gradient(45deg, var(--accent-dark), var(--accent));
+		color: white;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem 1.25rem;
+		border-radius: 50px;
+		font-size: 0.85rem;
+		font-weight: 600;
+		margin-bottom: 1.5rem;
+		box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+		animation: pulse 2s infinite;
+	}
 
+	@keyframes pulse {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0.8; }
+	}
+
+	h1 {
+		font-size: clamp(2.5rem, 5vw, 4rem);
+		margin: 0 0 0.5rem;
+		line-height: 1.1;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+	}
+
+	.text-gradient {
+		background: linear-gradient(45deg, var(--accent), #a855f7);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+	}
+
+	h2 {
+		font-size: clamp(1.2rem, 3vw, 1.6rem);
+		color: #94a3b8;
+		margin: 0 0 1.5rem;
+		font-weight: 400;
+	}
+
+	.bio {
+		font-size: 1.15rem;
+		max-width: 650px;
+		margin: 0 auto 2.5rem;
+		opacity: 0.9;
+	}
+
+	.bio-highlight {
+		color: var(--accent);
+		font-weight: bold;
+	}
+
+	.socials {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1rem;
+		margin-top: 1rem;
+	}
+
+	.btn-social {
+		background: var(--card-bg);
+		color: var(--text-color);
+		text-decoration: none;
+		padding: 0.9rem 1.8rem;
+		border-radius: 12px;
+		border: 1.5px solid var(--border-color);
+		font-weight: 500;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		backdrop-filter: blur(10px);
+	}
+
+	.btn-social:hover {
+		border-color: var(--accent);
+		background: rgba(16, 185, 129, 0.1);
+		color: var(--accent);
+		transform: translateY(-2px);
+		box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
+	}
+
+	.skills-section, .projects-preview {
+		padding: 4rem 0;
+	}
+
+	h3 {
+		font-size: 1.8rem;
+		margin-bottom: 2rem;
+		text-align: center;
+		position: relative;
+	}
+
+	h3::after {
+		content: '';
+		display: block;
+		width: 60px;
+		height: 3px;
+		background: var(--accent);
+		margin: 0.5rem auto 0;
+		border-radius: 2px;
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+		gap: 1.5rem;
+	}
+
+	/* Grille différente pour les projets (plus large) */
+	.project-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 1.5rem;
+	}
+
+	.card, .project-card {
+		background: var(--card-bg);
+		padding: 1.75rem 1.25rem;
+		border-radius: 16px;
+		text-align: center;
+		border: 1.5px solid var(--border-color);
+		transition: all 0.3s ease;
+		cursor: default;
+		backdrop-filter: blur(12px);
+	}
+
+	.card:hover, .project-card:hover {
+		border-color: var(--accent);
+		transform: translateY(-4px);
+		box-shadow: 0 20px 40px rgba(0, 212, 255, 0.15);
+	}
+
+	.icon {
+		font-size: 1.8rem;
+		display: block;
+		margin-bottom: 0.75rem;
+		filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+	}
+
+	.card p, .project-card h4 {
+		margin: 0;
+		font-weight: 500;
+	}
+
+	.project-card {
+		text-align: left;
+	}
+
+	.project-card h4 {
+		margin: 0 0 0.5rem;
+		color: var(--accent);
+		font-size: 1.1rem;
+		font-weight: bold;
+	}
+
+	.project-card p {
+		font-size: 0.9rem;
+		opacity: 0.85;
+		line-height: 1.5;
+	}
+
+	/* Responsive */
+	@media (max-width: 768px) {
+		.hero {
+			padding: 3rem 0 2rem;
+		}
+		
+		h1 {
+			font-size: 2.5rem;
+		}
+		
+		.socials {
+			flex-direction: column;
+			align-items: center;
+		}
+		
+		.btn-social {
+			justify-content: center;
+			width: 100%;
+			max-width: 280px;
+		}
+	}
+</style>
