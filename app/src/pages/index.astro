@@ -1,11 +1,169 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Tu peux changer ces variables avec tes vraies infos
+const name = "Ton Prénom";
+const role = "Ingénieur DevOps en formation";
+const description = "Passionné par l'automatisation, le Cloud AWS et l'Infrastructure as Code. Je construis des pipelines CI/CD modernes et sécurisés.";
+
+const skills = [
+  "AWS (S3, IAM)",
+  "Terraform (IaC)",
+  "GitHub Actions (CI/CD)",
+  "Docker",
+  "Linux",
+  "Python / Bash"
+];
+
+const socialLinks = [
+  { name: "GitHub", url: "https://github.com/Nasticks" },
+  { name: "LinkedIn", url: "#" }, // Ajoute ton lien ici
+  { name: "Email", url: "mailto:ton-email@example.com" }
+];
 ---
 
-<Layout>
-	<Welcome />
+<Layout title={`Portfolio de ${name}`}>
+	<main>
+		<div class="container">
+			<header class="hero">
+				<div class="badge">🚀 En recherche active</div>
+				<h1>Salut, je suis <span class="text-gradient">{name}</span></h1>
+				<h2>{role}</h2>
+				<p class="bio">
+					{description}
+				</p>
+				
+				<div class="socials">
+					{socialLinks.map((link) => (
+						<a href={link.url} target="_blank" class="btn-social">
+							{link.name} &rarr;
+						</a>
+					))}
+				</div>
+			</header>
+
+			<section class="skills-section">
+				<h3>🛠 Stack Technique</h3>
+				<div class="grid">
+					{skills.map((skill) => (
+						<div class="card">
+							<span class="icon">⚡</span>
+							<p>{skill}</p>
+						</div>
+					))}
+				</div>
+			</section>
+		</div>
+	</main>
 </Layout>
+
+<style>
+	:root {
+		--bg-color: #0f172a;
+		--text-color: #e2e8f0;
+		--accent: #38bdf8;
+		--card-bg: #1e293b;
+	}
+
+	main {
+		background-color: var(--bg-color);
+		color: var(--text-color);
+		font-family: 'Courier New', Courier, monospace; /* Style Terminal */
+		min-height: 100vh;
+		display: flex;
+		justify-content: center;
+		padding: 2rem;
+	}
+
+	.container {
+		max-width: 800px;
+		width: 100%;
+	}
+
+	.hero {
+		padding: 4rem 0;
+		border-bottom: 1px solid #334155;
+	}
+
+	.badge {
+		background: #0ea5e9;
+		color: white;
+		display: inline-block;
+		padding: 4px 12px;
+		border-radius: 99px;
+		font-size: 0.8rem;
+		font-weight: bold;
+		margin-bottom: 1rem;
+	}
+
+	h1 {
+		font-size: 3rem;
+		margin: 0;
+		line-height: 1.2;
+	}
+
+	.text-gradient {
+		color: var(--accent);
+	}
+
+	h2 {
+		font-size: 1.5rem;
+		color: #94a3b8;
+		margin-top: 0.5rem;
+	}
+
+	.bio {
+		font-size: 1.1rem;
+		line-height: 1.6;
+		margin: 2rem 0;
+		max-width: 600px;
+	}
+
+	.socials {
+		display: flex;
+		gap: 1rem;
+	}
+
+	.btn-social {
+		background: var(--card-bg);
+		color: white;
+		text-decoration: none;
+		padding: 0.8rem 1.5rem;
+		border-radius: 6px;
+		border: 1px solid #334155;
+		transition: all 0.2s;
+	}
+
+	.btn-social:hover {
+		border-color: var(--accent);
+		color: var(--accent);
+	}
+
+	.skills-section {
+		padding: 3rem 0;
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+		gap: 1rem;
+	}
+
+	.card {
+		background: var(--card-bg);
+		padding: 1.5rem;
+		border-radius: 8px;
+		text-align: center;
+		border: 1px solid #334155;
+	}
+
+	.card:hover {
+		border-color: var(--accent);
+	}
+
+	.icon {
+		font-size: 1.5rem;
+		display: block;
+		margin-bottom: 0.5rem;
+	}
+</style>
