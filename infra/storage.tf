@@ -1,10 +1,11 @@
 resource "aws_s3_bucket" "website" {
-  bucket_prefix = "portfolio-site-"
-  force_destroy = true
+  # On supprime le bucket_prefix qui générait un nom aléatoire
+  # bucket_prefix = "portfolio-site-" 
 
-  tags = {
-    Name = "S3-Portfolio"
-  }
+  # On impose le nom EXACT du domaine
+  bucket = "nasticks.me"
+
+  force_destroy = true
 }
 
 # --- NOUVEAU : Configuration Site Web Statique ---
