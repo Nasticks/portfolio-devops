@@ -1,0 +1,498 @@
+/* src/styles/global.css */
+
+:root {
+  /* --- Palette DevOps Modern --- */
+  --bg-dark: #020617;
+  /* Slate-950 */
+  --bg-card: rgba(30, 41, 59, 0.7);
+  /* Slate-800 semi-transparent */
+  --primary: #38bdf8;
+  /* Sky Blue */
+  --secondary: #6366f1;
+  /* Indigo */
+  --accent: #2dd4bf;
+  /* Teal */
+  --text-main: #f8fafc;
+  /* Slate-50 */
+  --text-muted: #94a3b8;
+  /* Slate-400 */
+  --border-color: rgba(148, 163, 184, 0.1);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* --- Reset & Base --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: center top;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, transparent 0%, var(--bg-dark) 100%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* --- Navigation --- */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 70px;
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: var(--glass-border);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+}
+
+.nav-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-text {
+  font-family: var(--font-mono);
+  fontWeight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.5px;
+}
+
+.logo-cursor {
+  color: var(--primary);
+  animation: blink 1s step-end infinite;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
+/* --- Elements UI --- */
+.hero-tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--primary);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -1px;
+}
+
+.highlight {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-description {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  max-width: 540px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background: var(--text-main);
+  color: var(--bg-dark);
+}
+
+.btn-primary:hover {
+  background: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-main);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover {
+  border-color: var(--text-main);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* --- Code Window --- */
+.code-window {
+  background: #1e293b;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+  font-family: var(--font-mono);
+  overflow: hidden;
+  transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+  transition: transform 0.5s ease;
+}
+
+.code-window:hover {
+  transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+}
+
+.window-header {
+  background: #0f172a;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.window-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.control {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.close {
+  background: #ef4444;
+}
+
+.minimize {
+  background: #fbbf24;
+}
+
+.maximize {
+  background: #22c55e;
+}
+
+.window-title {
+  flex-grow: 1;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.code-content {
+  padding: 1.5rem;
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.keyword {
+  color: #c084fc;
+}
+
+.string {
+  color: #a5f3fc;
+}
+
+.variable {
+  color: #cbd5e1;
+}
+
+.comment {
+  color: #64748b;
+}
+
+/* --- Sections & Cards --- */
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section-title::before {
+  content: '#';
+  color: var(--primary);
+  font-family: var(--font-mono);
+}
+
+.about-stats {
+  display: grid;
+  gap: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.stat-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.skills-grid,
+.projects-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.skill-category,
+.project-card {
+  background: var(--bg-card);
+  border: var(--glass-border);
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.category-title {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.category-title i {
+  color: var(--secondary);
+}
+
+.skill-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.skill-badge {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.skill-badge:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(56, 189, 248, 0.05);
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.project-folder {
+  font-size: 1.5rem;
+  color: var(--primary);
+}
+
+.project-links a {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-left: 1rem;
+  transition: color 0.2s;
+}
+
+.project-links a:hover {
+  color: var(--text-main);
+}
+
+.project-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.project-description {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--secondary);
+}
+
+.contact-content-centered {
+  text-align: left;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+
+/* ==========================================================
+   GESTION DU LAYOUT (MOBILE vs DESKTOP) - CORRIGÉ
+   ========================================================== */
+
+/* 1. VERSION MOBILE & TABLETTE (Écrans < 1024px) */
+@media (max-width: 1023px) {
+  .layout-wrapper {
+    display: block;
+  }
+
+  .sticky-sidebar {
+    position: relative;
+    height: auto;
+    padding: 8rem 2rem 2rem;
+    text-align: center;
+  }
+
+  .sticky-sidebar .hero-buttons {
+    justify-content: center;
+  }
+
+  .sticky-sidebar .hero-text {
+    align-items: center;
+  }
+
+  .scroll-content {
+    padding: 2rem;
+  }
+
+  .code-window {
+    display: none;
+  }
+
+  /* On cache le terminal sur mobile */
+
+  .navbar .nav-menu {
+    display: none;
+  }
+
+  /* Menu caché sur mobile */
+}
+
+/* 2. VERSION DESKTOP (Écrans >= 1024px) */
+@media (min-width: 1024px) {
+
+  /* Le parent qui met les 2 colonnes côte à côte */
+  .layout-wrapper {
+    display: grid;
+    grid-template-columns: 45% 55%;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  /* GAUCHE : Fixe et Centré */
+  /* GAUCHE : Hero Text (Fixe) */
+  .sticky-sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    /* PAR DÉFAUT : Centré verticalement (Comme sur l'accueil) */
+    justify-content: center;
+
+    padding: 0 4rem;
+    z-index: 10;
+    padding-top: 70px;
+  }
+
+  /* 👇 NOUVEAU : Si on est en mode "Blog", on aligne en haut */
+  .sticky-sidebar.blog-mode {
+    justify-content: flex-start;
+    /* Aligne en haut */
+    padding-top: 140px;
+    /* On pousse un peu pour s'aligner avec le contenu de droite */
+  }
+
+  /* DROITE : Défile */
+  .scroll-content {
+    padding: 120px 2rem 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
+  }
+
+  .scroll-content section {
+    padding: 0;
+    min-height: auto;
+  }
+}

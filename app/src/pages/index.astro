@@ -1,326 +1,248 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
-// IDENTITÉ
-const name = "Nasticks";
-const role = "Ingénieur Système & DevOps";
-const description = "Avec 4 ans d'expérience en administration système et infrastructures, j'évolue vers le DevOps pour industrialiser les déploiements. Mon but : mettre ma rigueur Ops au service de l'automatisation Cloud et de l'Infrastructure as Code.";
-
-// COMPÉTENCES
-const skills = [
-  "Linux RHEL/Rocky & Windows",
-  "Infrastructure as Code (Terraform)",
-  "CI/CD (GitHub Actions)",
-  "AWS (S3, IAM, OIDC)",
-  "Scripting (Bash/PowerShell)",
-  "Git & GitOps",
-  "Sécurité & Hardening",
-  "Azure (Administration)"
-];
-
-const socialLinks = [
-  { name: "GitHub", url: "https://github.com/Nasticks" },
-  { name: "LinkedIn", url: "https://linkedin.com/in/nasticks" }, 
-  { name: "Email", url: "mailto:contact@nasticks.dev" }
-];
 ---
 
-<Layout title={`Portfolio ${name} | Système & DevOps`}>
-	<main>
-		<div class="container">
-			<header class="hero">
-				<div class="badge">🔍 En recherche active</div>
-				<h1>Salut ! <span class="text-gradient">{name}</span></h1>
-				<h2 class="role-title">{role} <span class="exp-badge">4+ ans d'exp.</span></h2>
-				
-				<p class="bio">
-					{description}
-				</p>
-				
-				<div class="socials">
-					{socialLinks.map((link) => (
-						<a href={link.url} target="_blank" class="btn-social" rel="noopener noreferrer">
-							{link.name} &rarr;
-						</a>
-					))}
-				</div>
-			</header>
+<Layout title="Nasticks - Ingénieur DevOps & Cloud">
+    
+    <nav class="navbar">
+        <div class="nav-container container">
+            <div class="nav-logo">
+                <span class="logo-text">Nasticks</span>
+                <span class="logo-cursor">_</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#about" class="nav-link">À Propos</a></li>
+                <li><a href="#skills" class="nav-link">Compétences</a></li>
+                <li><a href="#projects" class="nav-link">Projets</a></li>
+                <li><a href="/blog" class="nav-link">Blog</a></li>
+                <li><a href="#contact" class="nav-link btn-primary" style="padding: 0.5rem 1rem; color: #020617;">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
 
-			<section class="skills-section">
-				<h3>🛠 Stack Technique</h3>
-				<p class="section-subtitle">Une base Système solide, modernisée par le Cloud Native.</p>
-				<div class="grid">
-					{skills.map((skill) => (
-						<div class="card">
-							<span class="icon">⚡</span>
-							<p>{skill}</p>
-						</div>
-					))}
-				</div>
-			</section>
+    <div class="layout-wrapper">
 
-			<section class="projects-preview">
-				<h3>🚀 Projets & Réalisations</h3>
-				<div class="project-grid">
-					
-					<div class="project-card featured">
-						<h4>Infrastructure Portfolio (AWS)</h4>
-						<p class="tech-stack">Terraform • GitHub Actions • OIDC</p>
-						<p>Déploiement complet d'une architecture Cloud en approche <strong>GitOps</strong>.</p>
-						<ul class="project-details">
-							<li>Provisioning Infrastructure as Code (S3, IAM, Budgets).</li>
-							<li>Pipeline CI/CD sécurisé via OIDC (Zero Access Key).</li>
-							<li>Automatisation du déploiement Frontend Astro.</li>
-						</ul>
-					</div>
+        <aside class="sticky-sidebar">
+            <div class="hero-text">
+                <span class="hero-tag">Disponible pour mission</span>
+                <h1 class="hero-title">
+                    Ingénieur <br>
+                    <span class="highlight">DevOps & Cloud</span>
+                </h1>
+                <p class="hero-description">
+                    Je conçois des infrastructures résilientes et des pipelines d'automatisation. 
+                    Spécialisé en AWS, Kubernetes et Infrastructure as Code.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">
+                        Me Contacter
+                    </a>
+                    <a href="#projects" class="btn btn-secondary">
+                        <i class="fas fa-folder-open"></i> Voir Portfolio
+                    </a>
+                </div>
+                
+                <div style="margin-top: 3rem; display: flex; gap: 1.5rem; font-size: 1.5rem; color: var(--text-muted);">
+                    <a href="#" style="color: inherit;"><i class="fab fa-github"></i></a>
+                    <a href="#" style="color: inherit;"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" style="color: inherit;"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </aside>
 
-					<div class="project-card">
-						<h4>Administration Système</h4>
-						<p class="tech-stack">Ansible • Linux • Bash</p>
-						<p>Gestion et maintenance opérationnelle d'infrastructures.</p>
-						<ul class="project-details">
-							<li>Automatisation de configurations (Ansible/Bash).</li>
-							<li>Maintien en condition opérationnelle (MCO) et patching.</li>
-							<li>Migration et sécurisation d'environnements de production.</li>
-						</ul>
-					</div>
+        <main class="scroll-content">
+            
+            <div class="hero-visual">
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control close"></span>
+                            <span class="control minimize"></span>
+                            <span class="control maximize"></span>
+                        </div>
+                        <div class="window-title">terraform plan</div>
+                    </div>
+                    <div class="code-content">
+                        <div class="code-line"><span class="comment"># Infrastructure Definition</span></div>
+                        <div class="code-line"><span class="keyword">resource</span> <span class="string">"aws_eks_cluster"</span> <span class="string">"main"</span> {</div>
+                        <div class="code-line">&nbsp;&nbsp;<span class="variable">name</span> = <span class="string">"prod-cluster"</span></div>
+                        <div class="code-line">&nbsp;&nbsp;<span class="variable">version</span> = <span class="string">"1.29"</span></div>
+                        <div class="code-line">&nbsp;&nbsp;<span class="comment"># High Availability Config</span></div>
+                        <div class="code-line">&nbsp;&nbsp;<span class="variable">enabled_cluster_log_types</span> = [<span class="string">"api"</span>, <span class="string">"audit"</span>]</div>
+                        <div class="code-line">}</div>
+                        <br>
+                        <div class="code-line"><span style="color: #22c55e;">Plan:</span> 1 to add, 0 to change, 0 to destroy.</div>
+                    </div>
+                </div>
+            </div>
 
-				</div>
-			</section>
-		</div>
-	</main>
+            <section id="about" class="about">
+                <h2 class="section-title">Profil Technique</h2>
+                <div class="about-content" style="grid-template-columns: 1fr;"> <div class="about-text">
+                        <p>
+                            L'automatisation n'est pas juste un outil, c'est une philosophie.
+                            En tant qu'Ingénieur DevOps, je transforme des processus manuels complexes en 
+                            systèmes fiables et reproductibles.
+                        </p>
+                        <p>
+                            Mon approche repose sur trois piliers : la <strong>sécurité</strong> (DevSecOps), 
+                            la <strong>scalabilité</strong> (Cloud Native) et l'<strong>observabilité</strong>.
+                        </p>
+                        <div class="about-stats" style="margin-top: 2rem; grid-template-columns: repeat(3, 1fr);">
+                            <div class="stat">
+                                <span class="stat-number">4+</span>
+                                <span class="stat-label">Années d'Exp.</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">15+</span>
+                                <span class="stat-label">Projets Livrés</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">100%</span>
+                                <span class="stat-label">IaC Coverage</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="skills" class="skills" style="padding: 0; margin-bottom: 6rem;">
+                <div class="container" style="padding: 0; margin: 0;">
+                    <h2 class="section-title">Stack Technologique</h2>
+                    
+                    <div class="skills-grid" style="grid-template-columns: 1fr; gap: 2rem;">
+                        
+                        <div class="skill-category">
+                            <h3 class="category-title"><i class="fas fa-code"></i> Infrastructure & Scripting</h3>
+                            <div class="skill-items">
+                                <span class="skill-badge">Terraform</span>
+                                <span class="skill-badge">Ansible</span>
+                                <span class="skill-badge">Python</span>
+                                <span class="skill-badge">Bash</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3 class="category-title"><i class="fas fa-cloud"></i> Cloud & Container</h3>
+                            <div class="skill-items">
+                                <span class="skill-badge">AWS</span>
+                                <span class="skill-badge">Azure</span>
+                                <span class="skill-badge">Kubernetes (K8s)</span>
+                                <span class="skill-badge">Docker</span>
+                                <span class="skill-badge">Helm</span>
+                                <span class="skill-badge">Linux</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3 class="category-title"><i class="fas fa-sync-alt"></i> CI/CD & GitOps</h3>
+                            <div class="skill-items">
+                                <span class="skill-badge">GitHub Actions</span>
+                                <span class="skill-badge">GitLab CI</span>
+                                <span class="skill-badge">ArgoCD</span>
+                                <span class="skill-badge">Playwright</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3 class="category-title"><i class="fas fa-chart-line"></i> Monitoring & Observabilité</h3>
+                            <div class="skill-items">
+                                <span class="skill-badge">Prometheus</span>
+                                <span class="skill-badge">Grafana</span>
+                                <span class="skill-badge">Uptime Kuma</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section id="projects" class="projects" style="padding: 0; margin-bottom: 6rem;">
+                <div class="container" style="padding: 0; margin: 0;">
+                    <h2 class="section-title">Réalisations</h2>
+                    <div class="projects-grid" style="grid-template-columns: 1fr; gap: 2rem;">
+                        
+                        <div class="project-card">
+                            <div class="project-header">
+                                <div class="project-folder"><i class="far fa-folder"></i></div>
+                                <div class="project-links">
+                                    <a href="https://github.com/votre-repo" target="_blank"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
+                            <h3 class="project-title">Portfolio Cloud Native</h3>
+                            <p class="project-description">
+                                Déploiement complet d'un site statique sur AWS S3. Infrastructure gérée par Terraform, 
+                                pipeline CI/CD GitHub Actions avec tests E2E Playwright.
+                            </p>
+                            <div class="project-tech">
+                                <span>Terraform</span>
+                                <span>AWS</span>
+                                <span>Astro</span>
+                            </div>
+                        </div>
+
+                        <div class="project-card">
+                            <div class="project-header">
+                                <div class="project-folder"><i class="far fa-chart-bar"></i></div>
+                                <div class="project-links">
+                                    <a href="https://monitor.nasticks.me" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                                </div>
+                            </div>
+                            <h3 class="project-title">Stack de Monitoring</h3>
+                            <p class="project-description">
+                                Architecture de supervision complète. Uptime Kuma pour la disponibilité, 
+                                Traefik comme Reverse Proxy avec gestion SSL automatique.
+                            </p>
+                            <div class="project-tech">
+                                <span>Docker</span>
+                                <span>Traefik</span>
+                                <span>Grafana</span>
+                            </div>
+                        </div>
+
+                        <div class="project-card">
+                            <div class="project-header">
+                                <div class="project-folder"><i class="fas fa-network-wired"></i></div>
+                                <div class="project-links"><a href="#"><i class="fas fa-lock"></i></a></div>
+                            </div>
+                            <h3 class="project-title">Infrastructure HomeLab</h3>
+                            <p class="project-description">
+                                Laboratoire Kubernetes personnel (K3s) pour tester les déploiements GitOps avec ArgoCD. 
+                                Gestion des secrets via Vault.
+                            </p>
+                            <div class="project-tech">
+                                <span>Kubernetes</span>
+                                <span>Ansible</span>
+                                <span>GitOps</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="contact">
+                <h2 class="section-title">Contact</h2>
+                <div class="contact-content-centered" style="text-align: left;">
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">
+                        Actuellement ouvert aux opportunités en freelance ou CDI. <br>
+                        Discutons de vos problématiques d'infrastructure.
+                    </p>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="mailto:contact@nasticks.me" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Email
+                        </a>
+                        <a href="https://linkedin.com/" target="_blank" class="btn btn-secondary">
+                            <i class="fab fa-linkedin"></i> LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <footer style="margin-top: 6rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); font-size: 0.85rem;">
+                <p>&copy; 2025 Nasticks. Infrastructure as Code & Design.</p>
+            </footer>
+
+        </main>
+    </div>
 </Layout>
-
-<style>
-	@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-
-	:root {
-		--bg-color: #0a0f1e;
-		--text-color: #e2e8f0;
-		--accent: #00d4ff;
-		--accent-dark: #0ea5e9;
-		--card-bg: #1a2332;
-		--border-color: #2d3748;
-	}
-
-	main {
-		background: linear-gradient(135deg, var(--bg-color) 0%, #1a1f3a 100%);
-		color: var(--text-color);
-		font-family: 'JetBrains Mono', 'Courier New', monospace;
-		min-height: 100vh;
-		display: flex;
-		justify-content: center;
-		padding: 2rem 1rem;
-		line-height: 1.6;
-	}
-
-	.container {
-		max-width: 900px;
-		width: 100%;
-	}
-
-	.hero {
-		padding: 5rem 0 3rem;
-		text-align: center;
-		border-bottom: 1px solid var(--border-color);
-	}
-
-	.badge {
-		background: linear-gradient(45deg, var(--accent-dark), var(--accent));
-		color: white;
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.5rem 1.25rem;
-		border-radius: 50px;
-		font-size: 0.85rem;
-		font-weight: 600;
-		margin-bottom: 1.5rem;
-		box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
-		animation: pulse 2s infinite;
-	}
-
-	@keyframes pulse {
-		0%, 100% { opacity: 1; }
-		50% { opacity: 0.8; }
-	}
-
-	h1 {
-		font-size: clamp(2.5rem, 5vw, 4rem);
-		margin: 0 0 0.5rem;
-		line-height: 1.1;
-		font-weight: 700;
-		letter-spacing: -0.02em;
-	}
-
-	.text-gradient {
-		background: linear-gradient(45deg, var(--accent), #a855f7);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-	}
-
-	.role-title {
-		font-size: clamp(1.2rem, 3vw, 1.6rem);
-		color: #94a3b8;
-		margin: 0 0 1.5rem;
-		font-weight: 400;
-	}
-
-	.exp-badge {
-		font-size: 0.8rem;
-		color: var(--accent);
-		border: 1px solid var(--accent);
-		padding: 2px 8px;
-		border-radius: 4px;
-		margin-left: 10px;
-		vertical-align: middle;
-	}
-
-	.bio {
-		font-size: 1.15rem;
-		max-width: 650px;
-		margin: 0 auto 2.5rem;
-		opacity: 0.9;
-	}
-
-	.socials {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 1rem;
-		margin-top: 1rem;
-	}
-
-	.btn-social {
-		background: var(--card-bg);
-		color: var(--text-color);
-		text-decoration: none;
-		padding: 0.9rem 1.8rem;
-		border-radius: 12px;
-		border: 1.5px solid var(--border-color);
-		font-weight: 500;
-		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		backdrop-filter: blur(10px);
-	}
-
-	.btn-social:hover {
-		border-color: var(--accent);
-		background: rgba(0, 212, 255, 0.1);
-		color: var(--accent);
-		transform: translateY(-2px);
-		box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
-	}
-
-	.section-subtitle {
-		text-align: center;
-		color: #94a3b8;
-		margin-bottom: 2rem;
-	}
-
-	h3 {
-		font-size: 1.8rem;
-		margin-bottom: 1rem;
-		text-align: center;
-		position: relative;
-	}
-
-	h3::after {
-		content: '';
-		display: block;
-		width: 60px;
-		height: 3px;
-		background: var(--accent);
-		margin: 0.5rem auto 0;
-		border-radius: 2px;
-	}
-
-	/* --- CORRECTION CSS POUR LA GRILLE --- */
-	.grid, .project-grid {
-		display: grid;
-		gap: 1.5rem;
-	}
-	
-	.grid {
-		/* Largeur augmentée de 160px à 220px pour éviter le débordement */
-		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-	}
-
-	.project-grid {
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-	}
-
-	.card, .project-card {
-		background: var(--card-bg);
-		padding: 1.75rem 1.25rem;
-		border-radius: 16px;
-		text-align: center;
-		border: 1.5px solid var(--border-color);
-		transition: all 0.3s ease;
-		backdrop-filter: blur(12px);
-		display: flex; /* Flexbox pour bien centrer le contenu */
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.card p {
-		/* Ajustement de la police pour que ça rentre bien dans les cartes */
-		font-size: 0.9rem; 
-		margin-top: 0.5rem;
-		line-height: 1.4;
-	}
-
-	.card:hover, .project-card:hover {
-		border-color: var(--accent);
-		transform: translateY(-4px);
-		box-shadow: 0 20px 40px rgba(0, 212, 255, 0.15);
-	}
-
-	.project-card {
-		text-align: left;
-		padding: 2rem;
-		display: block; /* Pas de flex centré pour les projets */
-	}
-
-	.project-card h4 {
-		color: var(--accent);
-		font-size: 1.2rem;
-		margin: 0 0 0.5rem 0;
-	}
-
-	.tech-stack {
-		font-size: 0.85rem;
-		color: #94a3b8;
-		font-family: 'JetBrains Mono', monospace;
-		margin-bottom: 1rem;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-	}
-
-	.project-details {
-		text-align: left;
-		margin: 1rem 0 0 0;
-		padding-left: 1.2rem;
-		color: #cbd5e1;
-		font-size: 0.95rem;
-	}
-	
-	.project-details li {
-		margin-bottom: 0.5rem;
-	}
-
-	.icon {
-		font-size: 1.8rem;
-		display: block;
-		margin-bottom: 0.5rem;
-	}
-
-	@media (max-width: 768px) {
-		h1 { font-size: 2.5rem; }
-		.btn-social { width: 100%; justify-content: center; }
-	}
-</style>

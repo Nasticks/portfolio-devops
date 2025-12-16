@@ -1,0 +1,82 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BlogSidebar from '../../components/BlogSidebar.astro'; // 👈 ON IMPORTE LA NOUVELLE SIDEBAR
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Layout title="Blog Technique - Nasticks">
+    
+    <nav class="navbar">
+        <div class="nav-container container">
+            <div class="nav-logo">
+                <span class="logo-text">Nasticks</span>
+                <span class="logo-cursor">_</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/#about" class="nav-link">À Propos</a></li>
+                <li><a href="/#skills" class="nav-link">Compétences</a></li>
+                <li><a href="/#projects" class="nav-link">Projets</a></li>
+                <li><a href="/blog" class="nav-link active">Blog</a></li>
+                <li><a href="/#contact" class="nav-link btn-primary" style="padding: 0.5rem 1rem; color: #020617;">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="layout-wrapper">
+
+        <BlogSidebar />
+
+        <main class="scroll-content">
+            
+            <section>
+                <div class="projects-grid" style="grid-template-columns: 1fr; gap: 2rem;">
+                    {posts.map((post) => (
+                        <div class="project-card">
+                            <div class="project-header">
+                                <div class="project-folder">
+                                    <i class="fas fa-file-code" style="color: var(--secondary);"></i>
+                                </div>
+                                <div class="project-links">
+                                    <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+                                        {post.data.pubDate.toLocaleDateString()}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <h3 class="project-title">
+                                <a href={`/blog/${post.slug}`} style="text-decoration: none; color: inherit;">
+                                    {post.data.title}
+                                </a>
+                            </h3>
+                            
+                            <p class="project-description">
+                                {post.data.description}
+                            </p>
+
+                            <div class="project-tech">
+                                {post.data.tags?.map(tag => (
+                                    <span style="color: var(--secondary);">#{tag}</span>
+                                ))}
+                            </div>
+
+                            <div style="margin-top: 1.5rem;">
+                                <a href={`/blog/${post.slug}`} class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.5rem 1rem; width: 100%; justify-content: center;">
+                                    Lire l'article
+                                </a>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            <footer style="padding-top: 4rem; border-top: 1px solid rgba(255,255,255,0.05); color: #64748b; font-size: 0.85rem; text-align: center;">
+                <p>&copy; 2025 Nasticks. Documentation is key.</p>
+            </footer>
+
+        </main>
+    </div>
+</Layout>
