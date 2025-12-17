@@ -3,19 +3,12 @@
 :root {
   /* --- Palette DevOps Modern --- */
   --bg-dark: #020617;
-  /* Slate-950 */
   --bg-card: rgba(30, 41, 59, 0.7);
-  /* Slate-800 semi-transparent */
   --primary: #38bdf8;
-  /* Sky Blue */
   --secondary: #6366f1;
-  /* Indigo */
   --accent: #2dd4bf;
-  /* Teal */
   --text-main: #f8fafc;
-  /* Slate-50 */
   --text-muted: #94a3b8;
-  /* Slate-400 */
   --border-color: rgba(148, 163, 184, 0.1);
   --glass-border: 1px solid rgba(255, 255, 255, 0.08);
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -64,13 +57,13 @@ body::after {
   padding: 0 2rem;
 }
 
-/* --- Navigation --- */
+/* --- Navigation Desktop (Par défaut) --- */
 .navbar {
   position: fixed;
   top: 0;
   width: 100%;
   height: 70px;
-  background: rgba(2, 6, 23, 0.85);
+  background: rgba(2, 6, 23, 0.95);
   backdrop-filter: blur(12px);
   border-bottom: var(--glass-border);
   z-index: 1000;
@@ -109,6 +102,7 @@ body::after {
   font-size: 0.9rem;
   font-weight: 500;
   transition: color 0.2s;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -403,51 +397,9 @@ body::after {
 
 
 /* ==========================================================
-   GESTION DU LAYOUT (MOBILE vs DESKTOP) - CORRIGÉ
+   LAYOUT PC (Écrans larges)
    ========================================================== */
-
-/* 1. VERSION MOBILE & TABLETTE (Écrans < 1024px) */
-@media (max-width: 1023px) {
-  .layout-wrapper {
-    display: block;
-  }
-
-  .sticky-sidebar {
-    position: relative;
-    height: auto;
-    padding: 8rem 2rem 2rem;
-    text-align: center;
-  }
-
-  .sticky-sidebar .hero-buttons {
-    justify-content: center;
-  }
-
-  .sticky-sidebar .hero-text {
-    align-items: center;
-  }
-
-  .scroll-content {
-    padding: 2rem;
-  }
-
-  .code-window {
-    display: none;
-  }
-
-  /* On cache le terminal sur mobile */
-
-  .navbar .nav-menu {
-    display: none;
-  }
-
-  /* Menu caché sur mobile */
-}
-
-/* 2. VERSION DESKTOP (Écrans >= 1024px) */
 @media (min-width: 1024px) {
-
-  /* Le parent qui met les 2 colonnes côte à côte */
   .layout-wrapper {
     display: grid;
     grid-template-columns: 45% 55%;
@@ -458,32 +410,23 @@ body::after {
     min-height: 100vh;
   }
 
-  /* GAUCHE : Fixe et Centré */
-  /* GAUCHE : Hero Text (Fixe) */
   .sticky-sidebar {
     position: sticky;
     top: 0;
     height: 100vh;
     display: flex;
     flex-direction: column;
-
-    /* PAR DÉFAUT : Centré verticalement (Comme sur l'accueil) */
     justify-content: center;
-
     padding: 0 4rem;
     z-index: 10;
     padding-top: 70px;
   }
 
-  /* 👇 NOUVEAU : Si on est en mode "Blog", on aligne en haut */
   .sticky-sidebar.blog-mode {
     justify-content: flex-start;
-    /* Aligne en haut */
     padding-top: 140px;
-    /* On pousse un peu pour s'aligner avec le contenu de droite */
   }
 
-  /* DROITE : Défile */
   .scroll-content {
     padding: 120px 2rem 4rem 2rem;
     display: flex;
@@ -494,5 +437,85 @@ body::after {
   .scroll-content section {
     padding: 0;
     min-height: auto;
+  }
+}
+
+/* ==========================================================
+   LAYOUT MOBILE & TABLETTE (Le Correctif)
+   ========================================================== */
+@media (max-width: 1023px) {
+
+  /* 1. Navbar Mobile Spéciale : Plus de hauteur, liens en dessous */
+  .navbar {
+    height: auto !important;
+    padding: 1rem 0;
+    position: relative !important;
+  }
+
+  .nav-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .nav-menu {
+    width: 100%;
+    overflow-x: auto;
+    /* Scroll horizontal pour les liens */
+    padding-bottom: 10px;
+    justify-content: flex-start;
+  }
+
+  /* 2. Layout général : Tout empiler */
+  html,
+  body {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+
+  .layout-wrapper {
+    display: block !important;
+    height: auto !important;
+  }
+
+  /* 3. Partie "Hero Text" (Haut) */
+  .sticky-sidebar {
+    position: relative !important;
+    top: auto !important;
+    height: auto !important;
+    width: 100% !important;
+    padding: 2rem 1.5rem !important;
+    text-align: center;
+    display: block !important;
+  }
+
+  .sticky-sidebar .hero-buttons {
+    justify-content: center !important;
+    margin-bottom: 2rem;
+  }
+
+  /* 4. Partie "Contenu" (Bas) */
+  .scroll-content {
+    width: 100% !important;
+    padding: 0 1.5rem 4rem !important;
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  /* 5. Réafficher le Terminal mais sans 3D */
+  .code-window {
+    display: block !important;
+    margin-bottom: 3rem;
+    transform: none !important;
+  }
+
+  .code-window:hover {
+    transform: none !important;
+  }
+
+  /* Ajustements tailles de police */
+  .hero-title {
+    font-size: 2.5rem !important;
   }
 }
