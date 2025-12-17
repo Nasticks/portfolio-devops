@@ -52,12 +52,12 @@ body::after {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
-/* --- Navigation Desktop (Par défaut) --- */
+/* --- Navigation --- */
 .navbar {
   position: fixed;
   top: 0;
@@ -78,11 +78,34 @@ body::after {
   align-items: center;
 }
 
+/* --- Correction du Logo Lien --- */
+
+/* 1. On style le lien (le conteneur <a>) */
+.nav-logo {
+  text-decoration: none;
+  /* Enlève le soulignement */
+  color: var(--text-main);
+  /* Force la couleur blanche/thème */
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  /* Petit espace entre le texte et le curseur */
+  transition: opacity 0.2s;
+}
+
+/* Petit effet au survol (optionnel) */
+.nav-logo:hover {
+  opacity: 0.8;
+}
+
+/* 2. Ton style de texte existant (ne change pas) */
 .logo-text {
   font-family: var(--font-mono);
-  fontWeight: 700;
+  font-weight: 700;
   font-size: 1.25rem;
   letter-spacing: -0.5px;
+  color: inherit;
+  /* Important : hérite la couleur du parent */
 }
 
 .logo-cursor {
@@ -123,7 +146,6 @@ body::after {
 }
 
 .hero-title {
-  font-size: 3.5rem;
   font-weight: 800;
   line-height: 1.1;
   margin-bottom: 1.5rem;
@@ -397,9 +419,12 @@ body::after {
 
 
 /* ==========================================================
-   LAYOUT PC (Écrans larges)
+   LAYOUT RESPONSIVE (PC / TABLETTE / MOBILE)
    ========================================================== */
+
+/* 1. VERSION DESKTOP & TABLETTE (Écrans >= 1024px) */
 @media (min-width: 1024px) {
+
   .layout-wrapper {
     display: grid;
     grid-template-columns: 45% 55%;
@@ -410,6 +435,7 @@ body::after {
     min-height: 100vh;
   }
 
+  /* GAUCHE : Fixe et Centré */
   .sticky-sidebar {
     position: sticky;
     top: 0;
@@ -417,9 +443,11 @@ body::after {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0 4rem;
     z-index: 10;
     padding-top: 70px;
+    /* Padding réduit par défaut pour les tablettes */
+    padding-left: 3rem;
+    padding-right: 3rem;
   }
 
   .sticky-sidebar.blog-mode {
@@ -427,6 +455,7 @@ body::after {
     padding-top: 140px;
   }
 
+  /* DROITE : Défile */
   .scroll-content {
     padding: 120px 2rem 4rem 2rem;
     display: flex;
@@ -438,18 +467,54 @@ body::after {
     padding: 0;
     min-height: auto;
   }
+
+  /* --- AJUSTEMENT TABLETTE / PETIT LAPTOP (1024px à 1399px) --- */
+  /* C'est ici qu'on empêche le texte d'être trop gros sur écran moyen */
+  .hero-title {
+    font-size: 2.8rem;
+  }
+
+  .nav-menu {
+    gap: 1.5rem;
+  }
+
+  /* Menu plus serré pour éviter le chevauchement */
+  .nav-link {
+    font-size: 0.85rem;
+  }
 }
 
-/* ==========================================================
-   LAYOUT MOBILE & TABLETTE (Le Correctif)
-   ========================================================== */
+/* 2. VERSION GRAND ÉCRAN (Écrans >= 1400px) */
+@media (min-width: 1400px) {
+
+  /* On remet les grandes tailles pour les grands écrans */
+  .hero-title {
+    font-size: 3.5rem;
+  }
+
+  .sticky-sidebar {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .nav-menu {
+    gap: 2rem;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+  }
+}
+
+/* 3. VERSION MOBILE & PETITE TABLETTE (Écrans < 1024px) */
 @media (max-width: 1023px) {
 
-  /* 1. Navbar Mobile Spéciale : Plus de hauteur, liens en dessous */
+  /* Navbar Mobile : Logo dessus, Menu dessous */
   .navbar {
     height: auto !important;
     padding: 1rem 0;
     position: relative !important;
+    flex-direction: column;
   }
 
   .nav-container {
@@ -461,12 +526,13 @@ body::after {
   .nav-menu {
     width: 100%;
     overflow-x: auto;
-    /* Scroll horizontal pour les liens */
+    /* Scroll horizontal */
     padding-bottom: 10px;
     justify-content: flex-start;
+    gap: 1.5rem;
   }
 
-  /* 2. Layout général : Tout empiler */
+  /* Layout Empilé */
   html,
   body {
     overflow-y: auto !important;
@@ -478,7 +544,7 @@ body::after {
     height: auto !important;
   }
 
-  /* 3. Partie "Hero Text" (Haut) */
+  /* Hero Text (Haut) */
   .sticky-sidebar {
     position: relative !important;
     top: auto !important;
@@ -494,7 +560,14 @@ body::after {
     margin-bottom: 2rem;
   }
 
-  /* 4. Partie "Contenu" (Bas) */
+  .hero-description {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Centrer le texte */
+
+  /* Contenu (Bas) */
   .scroll-content {
     width: 100% !important;
     padding: 0 1.5rem 4rem !important;
@@ -503,7 +576,7 @@ body::after {
     display: block !important;
   }
 
-  /* 5. Réafficher le Terminal mais sans 3D */
+  /* Terminal visible mais sans 3D */
   .code-window {
     display: block !important;
     margin-bottom: 3rem;
@@ -514,7 +587,6 @@ body::after {
     transform: none !important;
   }
 
-  /* Ajustements tailles de police */
   .hero-title {
     font-size: 2.5rem !important;
   }
