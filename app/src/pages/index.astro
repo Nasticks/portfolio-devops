@@ -161,25 +161,42 @@ import Layout from '../layouts/Layout.astro';
                 <div class="container" style="padding: 0; margin: 0;">
                     <h2 class="section-title">Réalisations</h2>
                     <div class="projects-grid" style="grid-template-columns: 1fr; gap: 2rem;">
-                        
                         <div class="project-card">
-                            <div class="project-header">
-                                <div class="project-folder"><i class="far fa-folder"></i></div>
-                                <div class="project-links">
-                                    <a href="https://github.com/votre-repo" target="_blank"><i class="fab fa-github"></i></a>
-                                </div>
-                            </div>
-                            <h3 class="project-title">Portfolio Cloud Native</h3>
-                            <p class="project-description">
-                                Déploiement complet d'un site statique sur AWS S3. Infrastructure gérée par Terraform, 
-                                pipeline CI/CD GitHub Actions avec tests E2E Playwright.
-                            </p>
-                            <div class="project-tech">
-                                <span>Terraform</span>
-                                <span>AWS</span>
-                                <span>Astro</span>
+                        <div class="project-header">
+                            <div class="project-folder"><i class="far fa-folder"></i></div>
+                            <div class="project-links">
+                                <a href="https://github.com/ton-repo" target="_blank" aria-label="Voir le code source">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="/blog/architecture-portfolio" aria-label="Lire l'étude de cas">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
                             </div>
                         </div>
+                        
+                        <h3 class="project-title">
+                            <a href="/blog/architecture-portfolio" style="text-decoration: none; color: inherit;">
+                                Portfolio Cloud Native
+                            </a>
+                        </h3>
+                        
+                        <p class="project-description">
+                            Déploiement complet d'un site statique sur AWS S3. Infrastructure gérée par Terraform, 
+                            pipeline CI/CD GitHub Actions avec tests E2E Playwright.
+                        </p>
+                        
+                        <div class="project-tech">
+                            <span>Terraform</span>
+                            <span>AWS</span>
+                            <span>Astro</span>
+                        </div>
+
+                        <div style="margin-top: 1.5rem;">
+                            <a href="/blog/architecture-portfolio" style="color: var(--primary); font-size: 0.9rem; text-decoration: none; font-weight: 500;">
+                                Lire l'étude de cas <i class="fas fa-arrow-right" style="font-size: 0.8em;"></i>
+                            </a>
+                        </div>
+                    </div>
 
                         <div class="project-card">
                             <div class="project-header">

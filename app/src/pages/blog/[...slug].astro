@@ -1,8 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import Sidebar from '../../components/Sidebar.astro'; // Import Sidebar
+import BlogSidebar from '../../components/BlogSidebar.astro'; // On garde la sidebar du blog
 
+// Génération des pages statiques
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
 	return posts.map((post) => ({
@@ -33,32 +34,44 @@ const { Content } = await post.render();
         </div>
     </nav>
 
-    <div class="split-wrapper">
+    <div class="layout-wrapper">
         
-        <Sidebar />
+        <BlogSidebar />
 
-        <main class="right-scroll">
+        <main class="scroll-content">
             
             <article style="max-width: 800px;">
+                
                 <a href="/blog" class="btn btn-secondary" style="margin-bottom: 2rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.5rem;">
-                    <i class="fas fa-arrow-left"></i> Retour
+                    <i class="fas fa-arrow-left"></i> Retour aux articles
                 </a>
 
                 <header style="margin-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 2rem;">
-                    <h1 class="hero-title" style="font-size: 2.5rem; margin-bottom: 1rem;">{post.data.title}</h1>
-                    <div style="color: var(--text-muted); font-family: var(--font-mono); font-size: 0.9rem;">
-                        <i class="far fa-calendar"></i> {post.data.pubDate.toLocaleDateString()} 
-                        &nbsp;•&nbsp; 
-                        <i class="far fa-user"></i> {post.data.author}
+                    <h1 style="font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1rem;">
+                        {post.data.title}
+                    </h1>
+                    
+                    <div style="display: flex; gap: 1rem; color: var(--text-muted); font-family: var(--font-mono); font-size: 0.9rem;">
+                        <span><i class="far fa-calendar"></i> {post.data.pubDate.toLocaleDateString()}</span>
+                        <span><i class="far fa-user"></i> {post.data.author}</span>
+                    </div>
+
+                    <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        {post.data.tags?.map(tag => (
+                            <span style="font-size: 0.8rem; padding: 2px 8px; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 4px; color: var(--primary);">
+                                #{tag}
+                            </span>
+                        ))}
                     </div>
                 </header>
 
                 <div class="article-content">
                     <Content />
                 </div>
+
             </article>
 
-            <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); color: #64748b; font-size: 0.85rem;">
+            <footer style="margin-top: 6rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); color: #64748b; font-size: 0.85rem;">
                 <p>&copy; 2025 Nasticks. Infrastructure as Code & Design.</p>
             </footer>
 
@@ -67,15 +80,114 @@ const { Content } = await post.render();
 </Layout>
 
 <style is:global>
-    .article-content { color: var(--text-main); line-height: 1.8; font-size: 1.05rem; }
-    .article-content h2 { color: var(--primary); margin-top: 3rem; margin-bottom: 1.5rem; font-size: 1.8rem; font-weight: 700; }
-    .article-content h3 { color: var(--text-main); margin-top: 2rem; font-size: 1.4rem; }
-    .article-content p { margin-bottom: 1.5rem; color: #cbd5e1; }
-    .article-content ul { margin-bottom: 1.5rem; padding-left: 1.5rem; }
-    .article-content li { margin-bottom: 0.5rem; color: #cbd5e1; }
-    .article-content pre { background: #1e293b; padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin: 2rem 0; overflow-x: auto; }
-    .article-content code { font-family: 'JetBrains Mono', monospace; background: rgba(56, 189, 248, 0.1); color: var(--primary); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
-    .article-content pre code { background: transparent; color: inherit; padding: 0; }
-    .article-content strong { color: #fff; font-weight: 700; }
-    .article-content blockquote { border-left: 4px solid var(--secondary); padding-left: 1rem; margin: 1.5rem 0; color: var(--text-muted); font-style: italic; }
+    /* Typographie de l'article */
+    .article-content {
+        font-family: var(--font-sans);
+        color: #e2e8f0; /* Texte clair */
+        line-height: 1.8;
+        font-size: 1.1rem;
+    }
+
+    /* Titres dans l'article (##, ###) */
+    .article-content h2 {
+        color: var(--primary);
+        font-size: 1.8rem;
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .article-content h3 {
+        color: #fff;
+        font-size: 1.4rem;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+
+    /* Paragraphes */
+    .article-content p {
+        margin-bottom: 1.5rem;
+        color: #cbd5e1; /* Gris clair lisible */
+    }
+
+    /* Listes */
+    .article-content ul, .article-content ol {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+        color: #cbd5e1;
+    }
+    .article-content li {
+        margin-bottom: 0.5rem;
+    }
+
+    /* Blocs de code (``` ... ```) */
+    .article-content pre {
+        background: #0f172a !important; /* Fond très sombre */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 2rem 0;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Code inline (`...`) */
+    .article-content code {
+        font-family: var(--font-mono);
+        background: rgba(56, 189, 248, 0.1);
+        color: var(--primary);
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-size: 0.9em;
+    }
+    
+    /* Code block override (pour ne pas avoir le fond bleu sur les blocs entiers) */
+    .article-content pre code {
+        background: transparent;
+        color: inherit;
+        padding: 0;
+    }
+
+    /* Citations */
+    .article-content blockquote {
+        border-left: 4px solid var(--secondary);
+        padding-left: 1.5rem;
+        margin: 2rem 0;
+        font-style: italic;
+        color: var(--text-muted);
+        background: rgba(99, 102, 241, 0.05);
+        padding: 1rem;
+        border-radius: 0 8px 8px 0;
+    }
+    
+    /* Liens dans l'article */
+    .article-content a {
+        color: var(--primary);
+        text-decoration: underline;
+        text-underline-offset: 4px;
+    }
+    .article-content a:hover {
+        color: var(--accent);
+    }
+    
+    /* Images */
+    .article-content img {
+        max-width: 100%;
+        border-radius: 8px;
+        margin: 2rem 0;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
 </style>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ 
+      startOnLoad: true, 
+      theme: 'dark', // S'adapte à ton thème sombre
+      securityLevel: 'loose',
+      fontFamily: 'Fira Code'
+  });
+</script>
