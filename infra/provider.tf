@@ -3,7 +3,7 @@ terraform {
     # On stabilise sur la version 5 pour éviter les breaking changes de la v6 pour l'instant
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0"
+      version = "~> 6.0"
     }
     github = {
       source  = "integrations/github"

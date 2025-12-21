@@ -1,21 +1,73 @@
-# Fichier: .github/workflows/deploy.yml
-name: Deploy to AWS S3
+name: Production Pipeline
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - 'app/**'
-      - '.github/workflows/**'
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
+# Permissions globales requises pour OIDC (AWS)
 permissions:
   id-token: write
   contents: read
 
+env:
+  AWS_REGION: "eu-north-1"
+  # L'ARN que nous avons récupéré via Terraform
+  AWS_ROLE_ARN: "arn:aws:iam::593734035095:role/github-actions-portfolio-role"
+  # Le nom de ton bucket (fixe)
+  S3_BUCKET_NAME: "nasticks.me"
+
 jobs:
-  build-and-deploy:
+  # ------------------------------------------------------------------
+  # JOB 1 : INFRASTRUCTURE (Terraform)
+  # ------------------------------------------------------------------
+  terraform:
+    name: "Provision Infrastructure"
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./infra
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.0"
+
+      - name: Terraform Init
+        run: terraform init
+
+      # Sécurité : Vérifie que le code est bien formaté
+      - name: Terraform Format
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Apply
+        # On applique seulement sur la branche main (pas en Pull Request)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve
+
+  # ------------------------------------------------------------------
+  # JOB 2 : APPLICATION (Astro Build & Deploy)
+  # ------------------------------------------------------------------
+  deploy-app:
+    name: "Build & Deploy App"
+    runs-on: ubuntu-latest
+    needs: terraform # <--- CRITIQUE : On attend que l'infra soit prête
+    # On ne déploie l'app que sur un push main (pas en PR)
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     
     steps:
       - name: Checkout Code
@@ -25,19 +77,24 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'       # Optimisation : Cache les node_modules
+          cache-dependency-path: './app/package-lock.json'
 
-      - name: Install & Build Astro
+      - name: Install Dependencies
         working-directory: ./app
-        run: |
-          npm ci
-          npm run build
+        run: npm ci
+
+      - name: Build Astro Site
+        working-directory: ./app
+        run: npm run build
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy to S3
+        # Sync le dossier dist/ vers le bucket
         run: |
-          aws s3 sync ./app/dist s3://${{ secrets.AWS_S3_BUCKET }} --delete
+          aws s3 sync ./app/dist s3://${{ env.S3_BUCKET_NAME }} --delete

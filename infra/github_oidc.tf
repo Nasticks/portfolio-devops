@@ -1,11 +1,13 @@
-# 1. Création du fournisseur d'identité (AWS apprend à connaître GitHub)
+# infra/github_oidc.tf
+
+# 1. Le lien avec GitHub (Reste identique)
 resource "aws_iam_openid_connect_provider" "github" {
   url             = "https://token.actions.githubusercontent.com"
   client_id_list  = ["sts.amazonaws.com"]
   thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1", "1c58a3a8518e8759bf075b76b750d4f2df264fcd"]
 }
 
-# 2. Création du Rôle que GitHub va "endosser"
+# 2. Le Rôle (Reste identique, vérifie juste la majuscule à "Nasticks" si besoin)
 resource "aws_iam_role" "github_actions" {
   name = "github-actions-portfolio-role"
 
@@ -20,7 +22,7 @@ resource "aws_iam_role" "github_actions" {
         }
         Condition = {
           StringLike = {
-            # ⚠️ TRES IMPORTANT : Remplace ci-dessous par ton info
+            # ⚠️ VERIFIE BIEN LA CASSE : "Nasticks" ou "nasticks" selon ton url GitHub
             "token.actions.githubusercontent.com:sub" = "repo:Nasticks/portfolio-devops:*"
           }
         }
@@ -29,27 +31,13 @@ resource "aws_iam_role" "github_actions" {
   })
 }
 
-# 3. On donne le droit à ce rôle d'écrire dans le S3
-resource "aws_iam_role_policy" "github_s3_access" {
-  name = "github-actions-s3-policy"
-  role = aws_iam_role.github_actions.id
+# 3. LA CORRECTION : On donne les clés de la maison à Terraform
+# (Indispensable pour qu'il puisse gérer le State S3 et le Lock DynamoDB)
+resource "aws_iam_role_policy_attachment" "admin" {
+  role       = aws_iam_role.github_actions.name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}
 
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "s3:PutObject",
-          "s3:GetObject",
-          "s3:ListBucket",
-          "s3:DeleteObject"
-        ]
-        Resource = [
-          aws_s3_bucket.website.arn,
-          "${aws_s3_bucket.website.arn}/*"
-        ]
-      }
-    ]
-  })
+output "github_role_arn" {
+  value = aws_iam_role.github_actions.arn
 }
