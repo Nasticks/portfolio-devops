@@ -1,7 +1,7 @@
 variable "billing_email" {
   description = "L'adresse email qui recevra les alertes de budget AWS"
   type        = string
-  # Pas de valeur par défaut pour te forcer à la définir
+  # Pas de défaut -> fourni via TF_VAR_billing_email dans le pipeline
 }
 
 variable "project_name" {
@@ -9,14 +9,5 @@ variable "project_name" {
   type        = string
   default     = "Portfolio-DevOps"
 }
-variable "github_token" {
-  description = "Token d'accès personnel GitHub (PAT)"
-  type        = string
-  sensitive   = true # Masque la valeur dans les logs
-}
 
-variable "github_repo" {
-  description = "Nom du dépôt GitHub (ex: portfolio-devops)"
-  type        = string
-  default     = "portfolio-devops"
-}
+# Suppression des variables github_token et github_repo

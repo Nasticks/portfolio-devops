@@ -1,24 +1,18 @@
 terraform {
   required_providers {
-    # On stabilise sur la version 5 pour éviter les breaking changes de la v6 pour l'instant
     aws = {
       source  = "hashicorp/aws"
       version = "~> 6.0"
     }
-    github = {
-      source  = "integrations/github"
-      version = "~> 6.0"
-    }
+    # Suppression du provider "github" qui causait le conflit
   }
 
   backend "s3" {
-    bucket = "tf-state-portfolio-nasticks-dev"
-    key    = "portfolio/terraform.tfstate"
-    region = "eu-north-1"
-
-    # --- AJOUTS DE SÉCURITÉ (OBLIGATOIRES) ---
-    dynamodb_table = "terraform-lock" # La table que tu as créée via CLI
-    encrypt        = true             # Chiffre tes données sensibles sur S3
+    bucket         = "tf-state-portfolio-nasticks-dev"
+    key            = "portfolio/terraform.tfstate"
+    region         = "eu-north-1"
+    dynamodb_table = "terraform-lock"
+    encrypt        = true
   }
 }
 
@@ -31,8 +25,4 @@ provider "aws" {
       Environment = "Production"
     }
   }
-}
-
-provider "github" {
-  token = var.github_token
 }
