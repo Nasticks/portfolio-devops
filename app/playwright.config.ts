@@ -9,9 +9,11 @@ export default defineConfig({
   reporter: 'html',
 
   use: {
-    /* 👇 C'EST LA LIGNE QUI MANQUAIT ! */
-    baseURL: 'http://localhost:4321',
-
+    /* C'EST ICI QUE TOUT SE JOUE : 
+       On utilise la variable d'environnement définie dans le YAML GitHub.
+       Si elle n'existe pas (sur ton PC), on utilise localhost.
+    */
+    baseURL: process.env.PLAYWRIGHT_TEST_BASE_URL || 'http://localhost:4321',
     trace: 'on-first-retry',
   },
 
@@ -30,8 +32,11 @@ export default defineConfig({
     },
   ],
 
-  /* Configuration du serveur de test */
-  webServer: {
+  /* OPTIMISATION :
+     Si on teste sur AWS (variable présente), on ne lance PAS le serveur local `npm run preview`.
+     Ça accélère le pipeline.
+  */
+  webServer: process.env.PLAYWRIGHT_TEST_BASE_URL ? undefined : {
     command: 'npm run preview',
     url: 'http://localhost:4321',
     reuseExistingServer: !process.env.CI,
