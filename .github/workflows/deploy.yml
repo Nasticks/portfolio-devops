@@ -17,6 +17,7 @@ env:
   AWS_ROLE_ARN: "arn:aws:iam::593734035095:role/github-actions-portfolio-role"
   # Le nom de ton bucket (fixe)
   S3_BUCKET_NAME: "nasticks.me"
+  TF_VAR_billing_email: "nasticks@proton.me"
 
 jobs:
   # ------------------------------------------------------------------
