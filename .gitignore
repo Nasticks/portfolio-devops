@@ -8,10 +8,12 @@ dist/
 .astro/
 
 # --- Terraform (CRITIQUE) ---
-# Ignore les fichiers de configuration locaux et les états
+# Ignore les fichiers de configuration locaux, les états et les secrets
 .terraform/
 *.tfstate
 *.tfstate.*
+*.tfplan        # <--- AJOUTÉ : Empêche de commiter des plans binaires contenant des secrets
+*.plan          # <--- AJOUTÉ : Variante d'extension
 crash.log
 *.tfvars
 *.tfvars.json
