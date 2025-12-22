@@ -5,23 +5,24 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+  # Déclenchement automatique pour le monitoring (SRE)
+  schedule:
+    - cron: '0 8 * * *' # Tous les jours à 08h00 UTC
+  workflow_dispatch:    # Bouton manuel pour tester
 
-# Permissions nécessaires pour l'authentification OIDC avec AWS
 permissions:
   id-token: write
   contents: read
 
 env:
   AWS_REGION: "eu-north-1"
-  # Ton ARN de rôle IAM (créé via Terraform)
   AWS_ROLE_ARN: "arn:aws:iam::593734035095:role/github-actions-portfolio-role"
   S3_BUCKET_NAME: "nasticks.me"
-  # Variable requise par Terraform (Billing)
   TF_VAR_billing_email: "nasticks@proton.me"
 
 jobs:
   # ------------------------------------------------------------------
-  # JOB 1 : INFRASTRUCTURE (Terraform + Security Audit)
+  # JOB 1 : INFRASTRUCTURE
   # ------------------------------------------------------------------
   terraform:
     name: "Provision Infrastructure"
@@ -54,30 +55,28 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
-      # --- SPRINT 3 : SCAN DE SÉCURITÉ (IaC) ---
-      # Vérifie s'il y a des mauvaises configurations dans ton code Terraform
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'config'
           hide-progress: false
           format: 'table'
-          exit-code: '0' # Mode audit : on ne bloque pas le pipeline pour l'instant
+          exit-code: '0'
           scan-ref: './infra'
 
       - name: Terraform Apply
-        # On applique seulement sur la branche main (pas en Pull Request)
+        # On applique seulement sur un PUSH. En monitoring, on vérifie juste que le code est valide.
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
 
   # ------------------------------------------------------------------
-  # JOB 2 : APPLICATION (Build & Deploy)
+  # JOB 2 : APPLICATION
   # ------------------------------------------------------------------
   deploy-app:
     name: "Build & Deploy App"
     runs-on: ubuntu-latest
-    needs: terraform # On attend que l'infra soit prête et sécurisée
-    # Déploiement uniquement sur main
+    needs: terraform
+    # Ne déploie que sur un PUSH. Pas besoin de redéployer pour monitorer.
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     
     steps:
@@ -106,18 +105,20 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy to S3
-        # Sync le dossier dist/ vers le bucket en supprimant les vieux fichiers
         run: |
           aws s3 sync ./app/dist s3://${{ env.S3_BUCKET_NAME }} --delete
 
   # ------------------------------------------------------------------
-  # JOB 3 : VALIDATION (End-to-End Tests)
+  # JOB 3 : VALIDATION & MONITORING 
   # ------------------------------------------------------------------
   e2e-test:
     name: "Validate Deployment"
     runs-on: ubuntu-latest
-    needs: deploy-app # On attend que le site soit déployé sur S3
-    if: github.ref == 'refs/heads/main'
+    needs: deploy-app
+    
+    # 👇 LA CORRECTION MAGIQUE :
+    # "Lance-toi TOUJOURS (always), MAIS seulement si le déploiement a réussi OU s'il a été sauté (cas du monitoring)"
+    if: always() && (needs.deploy-app.result == 'success' || needs.deploy-app.result == 'skipped')
 
     steps:
       - name: Checkout Code
@@ -140,7 +141,6 @@ jobs:
 
       - name: Run Playwright Tests
         working-directory: ./app
-        # On passe l'URL publique de ton S3 pour que Playwright teste le VRAI site
         env:
           PLAYWRIGHT_TEST_BASE_URL: "http://nasticks.me.s3-website.eu-north-1.amazonaws.com"
         run: npx playwright test
