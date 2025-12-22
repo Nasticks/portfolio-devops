@@ -1,93 +1,203 @@
-# 🚀 Portfolio DevOps : Astro + AWS + Terraform
+# Portfolio Cloud Native & DevOps 🚀
 
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Nasticks/portfolio-devops/deploy.yml?label=Build%20%26%20Deploy&style=for-the-badge)
-![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white)
-![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
-![Astro](https://img.shields.io/badge/astro-%232C2052.svg?style=for-the-badge&logo=astro&logoColor=white)
+[![Production Pipeline](https://github.com/Nasticks/portfolio-devops/actions/workflows/deploy.yml/badge.svg)](https://github.com/Nasticks/portfolio-devops/actions/workflows/deploy.yml)
+[![Infrastructure](https://img.shields.io/badge/Infrastructure-Terraform-purple)](https://www.terraform.io/)
+[![Cloud Provider](https://img.shields.io/badge/Provider-AWS-orange)](https://aws.amazon.com/)
+[![Built With](https://img.shields.io/badge/Built%20With-Astro-ff5a03)](https://astro.build/)
 
-Ce projet est un portfolio technique et une preuve de concept (POC) d'une architecture **GitOps** moderne et sécurisée.
-Il démontre l'automatisation complète du déploiement d'un site statique sur AWS sans utiliser de clés d'accès longue durée (Passwordless).
+Ce dépôt héberge l'infrastructure et le code source de mon portfolio professionnel.
+Il sert de **Preuve de Concept (POC)** pour démontrer une approche moderne du DevOps : **GitOps, Infrastructure as Code (IaC) et Automatisation SRE.**
+
+🔗 **Site en ligne :** [http://nasticks.me.s3-website.eu-north-1.amazonaws.com](http://nasticks.me.s3-website.eu-north-1.amazonaws.com)
 
 ---
 
-## 🏗 Architecture
+## 🏗️ Architecture Technique
 
-Le déploiement est piloté par **GitHub Actions**. La sécurité est assurée par une fédération d'identité **OIDC**, permettant à GitHub d'assumer un rôle IAM temporaire uniquement le temps du déploiement.
+Le projet repose sur une architecture **Serverless** hébergée sur AWS, entièrement provisionnée par code.
 
 ```mermaid
-flowchart LR
-    User([👤 Utilisateur]) -- HTTP --> S3["🪣 AWS S3 Bucket\n(Static Website Hosting)"]
+graph TD
+    User([Utilisateur]) -->|HTTPS| S3[AWS S3 Bucket<br>(Hosting)]
     
-    subgraph CI_CD ["🔄 GitHub Actions CI/CD"]
-        direction TB
-        Code["📦 Checkout Code"] --> Build["🛠 Build Astro"]
-        Build --> Auth["🔑 Auth OIDC"]
-        Auth --> Deploy["🚀 S3 Sync"]
+    subgraph "CI/CD Factory (GitHub Actions)"
+        Code[Code Source] -->|Push| CI[Pipeline CI/CD]
+        CI -->|Terraform Plan/Apply| AWS[AWS Infrastructure]
+        CI -->|Build & Sync| Content[Contenu Statique]
+        CI -->|Playwright| Test[Tests E2E & Monitoring]
     end
     
-    subgraph AWS_Cloud ["☁️ AWS Cloud"]
-        IAM["🛡 IAM OIDC Provider"]
-        Role["👮 IAM Role"]
-        Budget["💰 AWS Budgets"]
+    subgraph "Sécurité & State"
+        OIDC[OpenID Connect<br>(Sans clés d'accès)]
+        State[S3 Bucket<br>(Terraform State)]
+        Lock[DynamoDB<br>(State Locking)]
     end
-    
-    CI_CD -- 1. Request Token --> IAM
-    IAM -- 2. Trust Policy (Repo Check) --> Role
-    CI_CD -- 3. Assume Role --> Role
-    Role -- 4. Write Permissions --> S3
-    
-    style S3 fill:#FF9900,stroke:#232F3E,color:white
-    style CI_CD fill:#2088FF,stroke:#24292E,color:white
-    style IAM fill:#DD344C,stroke:#232F3E,color:white
+
+    CI -.->|Auth OIDC| OIDC
+    AWS -.->|Store State| State
+    AWS -.->|Lock| Lock
 ```
 
-## 🛠 Stack Technique
-
-| Domaine | Technologie | Usage |
-| :--- | :--- | :--- |
-| **Frontend** | [Astro](https://astro.build/) | Framework web performant pour sites statiques. |
-| **IaC** | [Terraform](https://www.terraform.io/) | Provisioning de l'infrastructure (S3, IAM, Budgets). |
-| **CI/CD** | GitHub Actions | Pipeline d'intégration et déploiement continu. |
-| **Sécurité** | AWS IAM OIDC | Authentification sans clés d'accès permanentes. |
-| **FinOps** | AWS Budgets | Alerting automatique en cas de dépassement de coûts. |
 
 
+⚙️ Automatisations Clés
+1. Pipeline "Zero-Touch"
+Aucune intervention manuelle n'est requise pour le déploiement.
 
-📂 Structure du Projet (Monorepo)
-Le projet suit une séparation stricte entre le code applicatif et le code d'infrastructure.
- 
- ````
-.
-├── app/                  # 📦 Code source de l'application (Site Astro)
-│   ├── src/              # Pages et composants
-│   └── package.json
-├── infra/                # ☁️ Infrastructure as Code (Terraform)
-│   ├── main.tf           # Configuration principale
-│   ├── github_oidc.tf    # Configuration de la sécurité OIDC
-│   └── billing.tf        # Configuration du budget AWS
-└── .github/workflows/    # ⚙️ Pipeline CI/CD (YAML)
-````
+Trigger : Push sur main.
+
+Infra : Terraform valide et applique les changements.
+
+App : Build Node.js et synchronisation S3 optimisée.
+
+2. Sécurité "Shift-Left"
+La sécurité est traitée au début du cycle, pas à la fin.
+
+OIDC AWS : Aucune AWS_ACCESS_KEY n'est stockée dans GitHub. L'authentification se fait par jetons éphémères.
+
+Trivy Scan : Chaque commit est scanné pour détecter les mauvaises configurations Terraform (ex: bucket public non désiré, chiffrement manquant).
+
+3. Monitoring SRE (Synthetic)
+Plutôt que d'attendre qu'un utilisateur signale une panne, le pipeline s'exécute tous les matins à 08h00 UTC.
+
+Il lance un scénario utilisateur complet avec Playwright.
+
+Si le site ne répond pas ou si le logo a disparu, je reçois une alerte immédiate (GitHub Notification).
 
 
+Architecte DevOps Senior
+Gem personnalisé
+Pas de souci ! C'est la touche finale, celle qui va "vendre" ton projet aux recruteurs.
+
+Voici la marche à suivre la plus simple pour le faire depuis ton ordinateur (VS Code) :
+
+Étape 1 : Copier le code
+Clique sur le bouton "Copy" en haut à droite du bloc de code ci-dessous.
+
+Markdown
+# Portfolio Cloud Native & DevOps 🚀
+
+[![Production Pipeline](https://github.com/Nasticks/portfolio-devops/actions/workflows/deploy.yml/badge.svg)](https://github.com/Nasticks/portfolio-devops/actions/workflows/deploy.yml)
+[![Infrastructure](https://img.shields.io/badge/Infrastructure-Terraform-purple)](https://www.terraform.io/)
+[![Cloud Provider](https://img.shields.io/badge/Provider-AWS-orange)](https://aws.amazon.com/)
+[![Built With](https://img.shields.io/badge/Built%20With-Astro-ff5a03)](https://astro.build/)
+
+Ce dépôt héberge l'infrastructure et le code source de mon portfolio professionnel.
+Il sert de **Preuve de Concept (POC)** pour démontrer une approche moderne du DevOps : **GitOps, Infrastructure as Code (IaC) et Automatisation SRE.**
+
+🔗 **Site en ligne :** [https://nasticks.me](https://nasticks.me)
+
+---
+
+## 🏗️ Architecture Technique
+
+Le projet repose sur une architecture **Serverless** hébergée sur AWS, entièrement provisionnée par code.
+
+```mermaid
+graph TD
+    User([Utilisateur]) -->|HTTPS| S3[AWS S3 Bucket<br>(Hosting)]
+    
+    subgraph "CI/CD Factory (GitHub Actions)"
+        Code[Code Source] -->|Push| CI[Pipeline CI/CD]
+        CI -->|Terraform Plan/Apply| AWS[AWS Infrastructure]
+        CI -->|Build & Sync| Content[Contenu Statique]
+        CI -->|Playwright| Test[Tests E2E & Monitoring]
+    end
+    
+    subgraph "Sécurité & State"
+        OIDC[OpenID Connect<br>(Sans clés d'accès)]
+        State[S3 Bucket<br>(Terraform State)]
+        Lock[DynamoDB<br>(State Locking)]
+    end
+
+    CI -.->|Auth OIDC| OIDC
+    AWS -.->|Store State| State
+    AWS -.->|Lock| Lock
+
+```
+
+### 🧩 La Stack
+Domaine	Technologie	Usage
+Infrastructure	Terraform	Provisioning du S3, IAM, Politiques de sécurité (IaC).
+Cloud	AWS	S3 (Hosting), IAM (Sécurité), Budgets (FinOps).
+CI/CD	GitHub Actions	Pipeline unifié : Infra + App + Tests.
+Sécurité	Trivy & OIDC	Scan de vulnérabilités IaC et Authentification sans clés ("Keyless").
+Qualité	Playwright	Tests End-to-End et Synthetic Monitoring quotidien.
+Frontend	Astro	Framework web haute performance (Static Site Generation).
 
 
-## 🚀 Déploiement Automatisé
+### ⚙️ Automatisations Clés
+1. Pipeline "Zero-Touch"
+Aucune intervention manuelle n'est requise pour le déploiement.
 
-Le pipeline suit la philosophie **GitOps**. Aucune action manuelle n'est requise pour la mise en production.
+Trigger : Push sur main.
 
-1.  **Déclencheur :** Tout `git push` sur la branche `main`.
-2.  **Workflow :**
-    * Installation des dépendances (`npm ci`).
-    * Construction du site statique (`npm run build`).
-    * Authentification AWS via OIDC (Role Assumption).
-    * Synchronisation des fichiers vers le Bucket S3.
+Infra : Terraform valide et applique les changements.
 
-## 🚧 Roadmap & Limitations Connues
+App : Build Node.js et synchronisation S3 optimisée.
 
-* **CDN (CloudFront) :** L'architecture actuelle expose directement le S3 via son endpoint web statique. Une migration vers **CloudFront (CDN) + ACM (HTTPS)** est prévue.
-    * *Raison :* Limitation temporaire sur les nouveaux comptes AWS empêchant la création immédiate de distributions CloudFront.
-* **Tests E2E :** Ajout de tests Cypress ou Playwright dans le pipeline.
+2. Sécurité "Shift-Left"
+La sécurité est traitée au début du cycle, pas à la fin.
 
-## ✍️ Auteur
+OIDC AWS : Aucune AWS_ACCESS_KEY n'est stockée dans GitHub. L'authentification se fait par jetons éphémères.
 
-Projet réalisé dans le cadre d'une montée en compétences DevOps.
+Trivy Scan : Chaque commit est scanné pour détecter les mauvaises configurations Terraform (ex: bucket public non désiré, chiffrement manquant).
+
+3. Monitoring SRE (Synthetic)
+Plutôt que d'attendre qu'un utilisateur signale une panne, le pipeline s'exécute tous les matins à 08h00 UTC.
+
+Il lance un scénario utilisateur complet avec Playwright.
+
+Si le site ne répond pas ou si le logo a disparu, je reçois une alerte immédiate (GitHub Notification).
+
+### 🛠️ Comment déployer ce projet (Localement)
+Si vous souhaitez tester ce code :
+
+1. Prérequis : Terraform, Node.js 20+, AWS CLI.
+
+2. Cloner :
+
+```Bash
+git clone [https://github.com/Nasticks/portfolio-devops.git](https://github.com/Nasticks/portfolio-devops.git)
+cd portfolio-devops
+```
+3. Infrastructure :
+
+```Bash
+cd infra
+# Le backend S3 est configuré pour mon projet, vous devrez le changer dans provider.tf
+terraform init
+terraform plan
+```
+
+4. Application :
+
+```Bash
+cd ../app
+npm install
+npm run dev
+```
+
+👤 Auteur
+Precieux Miberdolphe (Nasticks ) - Ingénieur DevOps / Platform Engineer Passionné par l'automatisation, Kubernetes et le Cloud Native.
+
+Ce projet a été réalisé dans une démarche "Best Practices" pour démontrer des compétences techniques concrètes.
+
+
+### Étape 2 : Coller dans VS Code
+1.  Ouvre ton éditeur (VS Code).
+2.  Ouvre le fichier `README.md` (celui qui est tout à la racine du projet).
+3.  Supprime tout ce qu'il y a dedans actuellement (`Ctrl+A` puis `Suppr`).
+4.  Colle le nouveau texte (`Ctrl+V`).
+5.  Sauvegarde (`Ctrl+S`).
+
+### Étape 3 : Envoyer sur GitHub
+Ouvre ton terminal (assure-toi d'être à la racine du projet) et lance ces 3 commandes :
+
+```bash
+git add README.md
+git commit -m "docs: update readme with professional architecture diagram"
+git push
+Et voilà ! Va voir ton dépôt GitHub, il aura une allure super pro ! 🚀
+```
+
