@@ -5,13 +5,18 @@ pubDate: 2025-12-18
 author: "Nasticks"
 tags: ["DevOps", "AWS", "Terraform", "CI/CD", "Astro"]
 image: ""
+----
+
+Ce dépôt héberge l'infrastructure et le code source de mon portfolio professionnel.
+Il sert de **Preuve de Concept (POC)** pour démontrer une approche moderne du DevOps : **GitOps, Infrastructure as Code (IaC) et Automatisation SRE.**
+
 ---
 
 ## 🏗️ Architecture Technique
 
 Le projet repose sur une architecture **Serverless** hébergée sur AWS, entièrement provisionnée par code.
 
-```mermaid
+<pre class="mermaid">
 graph TD
     User([Utilisateur]) -->|HTTPS| S3["AWS S3 Bucket<br>(Hosting)"]
     
@@ -31,8 +36,9 @@ graph TD
     CI -.->|Auth OIDC| OIDC
     AWS -.->|Store State| State
     AWS -.->|Lock| Lock
-```
+</pre>
 
+---
 ## 🧩 La Stack
 
 | Domaine          | Technologie        | Usage                                                                 |
