@@ -7,113 +7,92 @@ tags: ["DevOps", "AWS", "Terraform", "CI/CD", "Astro"]
 image: ""
 ---
 
-## 🎯 L'Objectif
+## 🏗️ Architecture Technique
 
-En tant qu'ingénieur DevOps, mon portfolio ne devait pas être une simple page web. Il devait être la **démonstration vivante** de mes compétences.
+Le projet repose sur une architecture **Serverless** hébergée sur AWS, entièrement provisionnée par code.
 
-Je me suis fixé trois contraintes :
-1.  **Performance** : Le site doit charger instantanément.
-2.  **Automatisation** : Aucun déploiement manuel (ClickOps interdit !).
-3.  **Infrastructure as Code** : Toute l'infra doit être reproductible via Terraform.
-
----
-
-## 🏗️ L'Architecture
-
-J'ai opté pour une architecture **Serverless Statique** pour réduire les coûts et maximiser la sécurité.
-
-**Le flux est le suivant :**
-1.  Le code est hébergé sur **GitHub**.
-2.  **GitHub Actions** construit le site (Build) et le teste.
-3.  L'artefact est déployé sur un **Bucket AWS S3**.
-4.  **Cloudflare** gère le DNS, le SSL et le cache (CDN) devant S3.
-
-<pre class="mermaid">
-graph LR
-    User(Visiteur) --> CF[Cloudflare CDN]
-    CF --> S3[AWS S3 Bucket]
+```mermaid
+graph TD
+    User([Utilisateur]) -->|HTTPS| S3["AWS S3 Bucket<br>(Hosting)"]
     
-    subgraph Pipeline [CI/CD Pipeline]
-        Git[GitHub] --> Action[GitHub Actions]
-        Action -->|Build & Deploy| S3
+    subgraph "CI/CD Factory (GitHub Actions)"
+        Code[Code Source] -->|Push| CI[Pipeline CI/CD]
+        CI -->|Terraform Plan/Apply| AWS[AWS Infrastructure]
+        CI -->|Build & Sync| Content[Contenu Statique]
+        CI -->|Playwright| Test["Tests E2E & Monitoring"]
     end
-</pre>
+    
+    subgraph "Sécurité & State"
+        OIDC["OpenID Connect<br>(Sans clés d'accès)"]
+        State["S3 Bucket<br>(Terraform State)"]
+        Lock["DynamoDB<br>(State Locking)"]
+    end
 
----
+    CI -.->|Auth OIDC| OIDC
+    AWS -.->|Store State| State
+    AWS -.->|Lock| Lock
+```
+## 🧩 La Stack
 
-## 🛠️ La Stack Technique
+| Domaine          | Technologie        | Usage                                                                 |
+|------------------|--------------------|-----------------------------------------------------------------------|
+| Infrastructure   | Terraform          | Provisioning du S3, IAM, Politiques de sécurité (IaC).                |
+| Cloud            | AWS                | S3 (Hosting), IAM (Sécurité), Budgets (FinOps).                       |
+| CI/CD            | GitHub Actions     | Pipeline unifié : Infra + App + Tests.                                |
+| Sécurité         | Trivy & OIDC       | Scan de vulnérabilités IaC et Authentification sans clés ("Keyless"). |
+| Qualité          | Playwright         | Tests End-to-End et Synthetic Monitoring quotidien.                   |
+| Frontend         | Astro              | Framework web haute performance (Static Site Generation).             |
 
-### 1. Le Framework : Astro 🚀
-Pourquoi Astro ? Contrairement à React ou Next.js qui envoient beaucoup de JavaScript au navigateur, Astro génère du **HTML statique pur** par défaut. Résultat : un site ultra-léger et rapide, parfait pour le SEO et l'expérience utilisateur.
+## ⚙️ Automatisations Clés
+1. ### Pipeline "Zero-Touch"
+Aucune intervention manuelle n'est requise pour le déploiement.
 
-### 2. Infrastructure as Code : Terraform 💜
-Plutôt que de créer le bucket S3 à la main dans la console AWS, j'ai tout défini en HCL (HashiCorp Configuration Language).
+- Trigger : Push sur main.
+- Infra : Terraform valide et applique les changements.
+- App : Build Node.js et synchronisation S3 optimisée.
 
-Voici un extrait de mon `main.tf` :
+2. ### Sécurité "Shift-Left"
+La sécurité est traitée au début du cycle, pas à la fin.
 
-```hcl
-resource "aws_s3_bucket" "portfolio" {
-  bucket = "nasticks.me"
+OIDC AWS : Aucune AWS_ACCESS_KEY n'est stockée dans GitHub. L'authentification se fait par jetons éphémères.
 
-  tags = {
-    Environment = "Production"
-    ManagedBy   = "Terraform"
-  }
-}
+Trivy Scan : Chaque commit est scanné pour détecter les mauvaises configurations Terraform (ex: bucket public non désiré, chiffrement manquant).
 
-resource "aws_s3_bucket_website_configuration" "portfolio" {
-  bucket = aws_s3_bucket.portfolio.id
+3. ### Monitoring SRE (Synthetic)
+Plutôt que d'attendre qu'un utilisateur signale une panne, le pipeline s'exécute tous les matins à 08h00 UTC.
 
-  index_document {
-    suffix = "index.html"
-  }
+Il lance un scénario utilisateur complet avec Playwright.
 
-  error_document {
-    key = "404.html"
-  }
-}
-````
-### 3. Pipeline CI/CD : GitHub Actions 🤖
+Si le site ne répond pas ou si le logo a disparu, je reçois une alerte immédiate (GitHub Notification).
 
-L'automatisation est le cœur du métier DevOps. Chaque `git push` déclenche un workflow qui :
+## 🛠️ Comment déployer ce projet (Localement)
+Si vous souhaitez tester ce code :
 
-* Installe les dépendances (`npm install`).
-* Construit le site (`npm run build`).
-* Synchronise les fichiers vers AWS S3.
+1. Prérequis : Terraform, Node.js 20+, AWS CLI.
 
-Extrait de mon workflow `.github/workflows/deploy.yml` :
+2. Cloner :
+```Bash
+git clone [https://github.com/Nasticks/portfolio-devops.git](https://github.com/Nasticks/portfolio-devops.git)
+cd portfolio-devops
+``` 
+3. Infrastructure :
 
-```yaml
-name: Deploy to AWS S3
-on:
-  push:
-    branches: [ main ]
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Build Astro Site
-        run: |
-          npm install
-          npm run build
-      - name: Deploy to S3
-        uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --acl public-read --follow-symlinks --delete
-        env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+```Bash
+cd infra
+# Le backend S3 est configuré pour mon projet, vous devrez le changer dans provider.tf
+terraform init
+terraform plan
+``` 
+
+4. Application :
+
+```Bash
+cd ../app
+npm install
+npm run dev
 ```
 
+## 👤 Auteur
+Precieux Miberdolphe(Nasticks) - Ingénieur DevOps / Platform Engineer Passionné par l'automatisation, Kubernetes et le Cloud Native.
 
-### 📊 Monitoring & Observabilité
-Un bon DevOps ne déploie pas à l'aveugle. J'ai mis en place une stack de monitoring externe hébergée sur un VPS séparé pour surveiller la disponibilité du site.
-- Uptime Kuma : Vérifie toutes les 60 secondes que le site répond (HTTP 200).
-- Traefik : Gère le routage et les certificats SSL du VPS de monitoring.
-
-### 💡 Conclusion
-Ce projet m'a permis de consolider mes connaissances sur l'écosystème AWS et l'automatisation moderne. La migration vers Astro a divisé par 4 le temps de chargement par rapport à mon ancienne version.
-
-Le code source complet est disponible sur mon GitHub (lien dans le header). N'hésitez pas à me contacter pour discuter infrastructure !
+Ce projet a été réalisé dans une démarche "Best Practices" pour démontrer des compétences techniques concrètes.
