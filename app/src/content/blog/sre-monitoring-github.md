@@ -3,9 +3,7 @@ title: "Comment j'ai transformé GitHub Actions en outil de Monitoring SRE Gratu
 description: "Surveiller un site coûte cher. Voici comment j'utilise le 'Synthetic Monitoring' avec Playwright et GitHub Cron pour 0€."
 pubDate: 2025-01-12
 author: "Nasticks"
-image: 
-  url: "https://miro.medium.com/v2/resize:fit:1400/1*C-22-Y_-I-fD0X8qF0Jb1Q.png"
-  alt: "Playwright et GitHub Actions"
+image: "https://miro.medium.com/v2/resize:fit:1400/1*C-22-Y_-I-fD0X8qF0Jb1Q.png"
 tags: ["SRE", "Monitoring", "Playwright", "FinOps"]
 ---
 

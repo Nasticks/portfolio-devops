@@ -3,9 +3,7 @@ title: "Arrêtez d'utiliser des Access Keys : Authentification AWS sécurisée a
 description: "Comment j'ai sécurisé mon pipeline CI/CD en supprimant définitivement les clés d'accès longue durée grâce à OpenID Connect."
 pubDate: 2025-01-10
 author: "Nasticks"
-image: 
-  url: "https://docs.github.com/assets/cb-35799/images/help/actions/aws-oidc-diagram.png"
-  alt: "Schéma OIDC GitHub AWS"
+image: "https://docs.github.com/assets/cb-35799/images/help/actions/aws-oidc-diagram.png"
 tags: ["Sécurité", "AWS", "GitHub Actions", "DevSecOps"]
 ---
 

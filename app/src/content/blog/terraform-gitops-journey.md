@@ -3,9 +3,7 @@ title: "De Localhost au Cloud : Construire une CI/CD GitOps pour Astro et Terraf
 description: "Retour d'expérience complet sur la construction d'une plateforme Cloud Native. Choix techniques, défis rencontrés et architecture finale."
 pubDate: 2025-01-14
 author: "Nasticks"
-image: 
-  url: "https://astro.build/assets/blog/astro-1-release-update/cover.jpeg"
-  alt: "Architecture Cloud Native"
+image: "https://astro.build/assets/blog/astro-1-release-update/cover.jpeg"
 tags: ["Architecture", "Terraform", "GitOps", "Astro"]
 ---
 
