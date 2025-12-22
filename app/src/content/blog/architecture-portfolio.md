@@ -32,6 +32,7 @@ graph TD
     AWS -.->|Store State| State
     AWS -.->|Lock| Lock
 ```
+
 ## 🧩 La Stack
 
 | Domaine          | Technologie        | Usage                                                                 |
