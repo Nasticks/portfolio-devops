@@ -49,30 +49,28 @@ graph TD
 | Frontend         | Astro              | Framework web haute performance (Static Site Generation).             |
 
 ## ⚙️ Automatisations Clés
-1. Pipeline "Zero-Touch"
+1. ### Pipeline "Zero-Touch"
 Aucune intervention manuelle n'est requise pour le déploiement.
 
-Trigger : Push sur main.
+- Trigger : Push sur main.
+- Infra : Terraform valide et applique les changements.
+- App : Build Node.js et synchronisation S3 optimisée.
 
-Infra : Terraform valide et applique les changements.
-
-App : Build Node.js et synchronisation S3 optimisée.
-
-2. Sécurité "Shift-Left"
+2. ### Sécurité "Shift-Left"
 La sécurité est traitée au début du cycle, pas à la fin.
 
 OIDC AWS : Aucune AWS_ACCESS_KEY n'est stockée dans GitHub. L'authentification se fait par jetons éphémères.
 
 Trivy Scan : Chaque commit est scanné pour détecter les mauvaises configurations Terraform (ex: bucket public non désiré, chiffrement manquant).
 
-3. Monitoring SRE (Synthetic)
+3. ### Monitoring SRE (Synthetic)
 Plutôt que d'attendre qu'un utilisateur signale une panne, le pipeline s'exécute tous les matins à 08h00 UTC.
 
 Il lance un scénario utilisateur complet avec Playwright.
 
 Si le site ne répond pas ou si le logo a disparu, je reçois une alerte immédiate (GitHub Notification).
 
-🛠️ Comment déployer ce projet (Localement)
+## 🛠️ Comment déployer ce projet (Localement)
 Si vous souhaitez tester ce code :
 
 1. Prérequis : Terraform, Node.js 20+, AWS CLI.
