@@ -10,7 +10,6 @@ Ce dépôt héberge l'infrastructure et le code source de mon portfolio professi
 Il sert de **Preuve de Concept (POC)** pour démontrer une approche moderne du DevOps : **GitOps, Infrastructure as Code (IaC) et Automatisation SRE.**
 
 ---
-
 ## 🏗️ Architecture Technique
 
 Le projet repose sur une architecture **Serverless** hébergée sur AWS, entièrement provisionnée par code.
